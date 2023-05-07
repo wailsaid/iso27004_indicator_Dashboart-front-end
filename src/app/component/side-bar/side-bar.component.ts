@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import * as $ from 'jquery';
+import { AfterViewInit,Component } from '@angular/core';
 
 @Component({
   selector: 'app-side-bar',
@@ -6,5 +7,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./side-bar.component.css']
 })
 export class SideBarComponent {
+  ngAfterViewInit() {
+    $("#sidebarToggle, #sidebarToggleTop").on("click", function (e) {
 
+      $("#page-top").toggleClass("sidebar-toggled");
+      $(".sidebar").toggleClass("toggled");
+      if ($(".sidebar").hasClass("toggled")) {
+        $(".sidebar .collapse").hide();
+      }
+    })
+
+}
 }

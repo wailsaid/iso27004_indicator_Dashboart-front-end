@@ -1,0 +1,347 @@
+<!-- DataTales -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
+
+
+        <h5 class="m-0 font-weight-bold text-primary">List of Cybersecurity indicators</h5>
+
+
+
+            <!-- Button trigger modal -->
+            <button data-bs-toggle="modal" data-bs-target="#indicatorForm"
+                class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                    class="fas fa-plus fa-sm text-white-50"></i> Add Indicator</button>
+
+    </div>
+    <div class="card-body">
+
+
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+
+                        <th>Name</th>
+                        <th>Value</th>
+                        <th>Performance</th>
+                        <th>Next Evaluation Date</th>
+
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+
+                        <tr>
+
+                            <td>
+                               test
+                            </td>
+                            <td>
+                               N/A
+                            </td>
+                            <td class="perf text-good">
+                               14
+                            </td>
+
+                            <td>
+
+                            dd-MM-yyyy
+                            </td>
+
+
+
+
+
+
+                            <td>
+                                <a href="" class="btn btn-info btn-sm btn-icon-split">
+                                    <span class="icon text-white-50">
+                                        <i class="fas fa-list"></i>
+                                    </span>
+                                    <span class="text">Details</span>
+                                </a>
+
+
+
+                            </td>
+                        </tr>
+
+
+
+                    <tr>
+
+                        <td>test</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                        <td>-/-/-</td>
+                        <td>
+                            <a href="" class="btn btn-info btn-sm btn-icon-split">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-list"></i>
+                                </span>
+                                <span class="text">Details</span>
+                            </a>
+
+
+
+                        </td>
+                    </tr>
+
+
+                </tbody>
+            </table>
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script>
+
+    var perf = document.querySelectorAll('.perf');
+    for (let i = 0; i < perf.length; i++) {
+        var val = parseFloat(perf[i].innerHTML);
+        if (val >= 0) {
+            perf[i].innerHTML = "&#8593 " + Math.abs(val);
+            perf[i].classList.add('text-good');
+        } else {
+            perf[i].innerHTML = "&#8595 " + Math.abs(val);
+            perf[i].classList.add('text-bad');
+
+        }
+    }
+</script>
+
+
+
+
+<!-- Modal1 -->
+<div class="modal fade" id="indicatorForm" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="ModalLabel">Add a CyberSecurity Indicator</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addIndicator" action="./AddIndicator" method="post">
+                    <div class="row">
+                        <div class="col-md-6">
+
+                            <div class="form-group form-floating">
+
+                                <input type="text" class="form-control" placeholder="" name="name" id="name" required>
+                                <label for="name">Indicator's name</label>
+
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group form-floating">
+
+                                        <input type="text" class="form-control" placeholder="" name="type" id="type"
+                                            required>
+                                        <label for="type">Type</label>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group form-floating">
+
+                                        <input list="catid" type="text" class="form-control" placeholder=""
+                                            name="category" id="category" required>
+                                        <label for="category">Category</label>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-group form-floating">
+
+                                <input type="text" class="form-control" placeholder="" name="benefits" id="benefits"
+                                    required>
+                                <label for="benefits">Benefits</label>
+
+                            </div>
+
+
+                            <div class="form-group form-floating">
+
+                                <textarea maxlength="1000" class="form-control" placeholder="" name="description"
+                                    id="description" required rows="5" cols="10"></textarea>
+                                <label for="description">Description</label>
+
+                            </div>
+
+                            <div class="form-group form-floating">
+
+                                <textarea maxlength="1000" class="form-control" placeholder="" name="measure"
+                                    id="measure" required rows="5" cols="10"></textarea>
+                                <label for="measure">How to measure</label>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group form-floating">
+
+                                        <select id="report" class="form-select" name="Reportform">
+                                            <option value="operational">Optional Dashboard</option>
+                                            <option value="strategic">Strategic Dashboard</option>
+                                        </select>
+                                        <label for="report">Report Format</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group form-floating">
+                                        <select id="perf" class="form-select" name="performance">
+                                            <option value="asc">&#8593; Increment</option>
+                                            <option value="desc">&#8595; Decrement</option>
+
+                                        </select>
+                                        <label for="perf">Performance Indicator</label>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                    <div class="form-group form-floating">
+
+                                        <input min="0" type="number" class="form-control" placeholder="" name="target"
+                                            id="target" required>
+                                        <label for="target">Target value</label>
+
+                                    </div>
+                                    <div class="form-group form-floating">
+
+                                        <input min="0" type="number" class="form-control" placeholder="" name="accept"
+                                            id="accept" required>
+                                        <label for="accept">Acceptable value</label>
+
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+
+
+                                    <div class="form-group form-floating">
+
+                                        <select id="frenquency" class="form-select" name="frequency">
+                                            <option value="monthly">Monthly</option>
+                                            <option value="quarterly">Quarterly</option>
+                                            <option value="annually">Annually</option>
+                                        </select>
+                                        <label for="frenquency">Frequency</label>
+                                    </div>
+
+
+                                    <div class="form-group form-floating">
+                                        <select id="unit" class="form-select" name="unit">
+                                            <option value="%">percentage </option>
+                                            <option value="nomber">Number</option>
+                                        </select>
+                                        <label for="unit">Indicator Unit</label>
+                                    </div>
+                                    <!--                                                <div class="col-6 form-group form-floating">
+                                                    <select id="perf" class="form-select" name="performance">
+                                                        <option value="asc">&#8593 Increment</option>
+                                                        <option value="desc">&#8595 Decrement</option>
+
+                                                    </select>
+                                                    <label for="perf">Performance Indicator</label>
+                                                </div> -->
+
+
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="form-group form-floating">
+
+                                <input type="text" class="form-control" placeholder="" name="infoOwnwer" id="infoOwnwer"
+                                    required>
+                                <label for="infoOwnwer">Information Owner</label>
+
+                            </div>
+                            <div class="form-group form-floating">
+
+                                <input type="text" class="form-control" placeholder="" name="infoCollector"
+                                    id="infoCollector" required>
+                                <label for="infoCollector">Information Collector</label>
+
+                            </div>
+                            <div class="form-group form-floating">
+
+                                <input type="text" class="form-control" placeholder="" name="infoCustomer"
+                                    id="infoCustomer" required>
+                                <label for="infoCustomer">Information Customer</label>
+
+                            </div>
+
+                            <div class="applist">
+
+                                    <input name="appC" type="checkbox" value=""><span>
+                                     T24
+                                    </span>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" form="addIndicator" class="btn btn-primary"> <i
+                        class="fas fa-plus fa-sm text-white-50"></i> Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<datalist id="catid">
+    <option value="Security policy"> Security policy</option>
+    <option value="Organization of information security"> Organization of information security</option>
+    <option value="Asset management"> Asset management</option>
+    <option value="Human resources security"> Human resources security</option>
+    <option value="Physical and environmental security"> Physical and environmental security</option>
+    <option value="Communications and operations management"> Communications and operations management</option>
+    <option value="Access control"> Access control</option>
+    <option value="Information systems acquisition, development, and maintenance"> Information systems acquisition,
+        development, and maintenance</option>
+    <option value="Information security incident management"> Information security incident management</option>
+    <option value="Business continuity management"> Business continuity management</option>
+    <option value="Compliance"> Compliance</option>
+    <option value="Cryptography"> Cryptography</option>
+    <option value="Operations security"> Operations security</option>
+    <option value="Network security management"> Network security management</option>
+    <option value="Information security risk assessment and treatment"> Information security risk assessment and
+        treatment</option>
+    <option value="Supplier relationships"> Supplier relationships</option>
+    <option value="System and application security"> System and application security</option>
+    <option value="Information security monitoring and review"> Information security monitoring and review</option>
+</datalist>
