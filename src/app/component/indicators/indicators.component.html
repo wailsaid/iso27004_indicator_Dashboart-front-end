@@ -7,16 +7,79 @@
 
 
 
-            <!-- Button trigger modal -->
-            <button data-bs-toggle="modal" data-bs-target="#indicatorForm"
-                class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                    class="fas fa-plus fa-sm text-white-50"></i> Add Indicator</button>
+        <!-- Button trigger modal -->
+        <button data-bs-toggle="modal" data-bs-target="#indicatorForm"
+            class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                class="fas fa-plus fa-sm text-white-50"></i> Add Indicator</button>
 
     </div>
     <div class="card-body">
 
+<!--
+        <mat-form-field>
+            <mat-label>Search</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
+        </mat-form-field>
 
-        <div class="table-responsive">
+        <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource" matSort>
+
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+                    <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                    <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="category">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Evaluation </th>
+                    <td mat-cell *matCellDef="let row"> {{row.category}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="type">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Performance </th>
+                    <td mat-cell *matCellDef="let row"> {{row.type}}% </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="acceptableValue">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Next Evaluation Date </th>
+                    <td mat-cell *matCellDef="let row"> {{row.acceptableValue}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef> Actions </th>
+                    <td mat-cell *matCellDef="let row">
+                        <a
+                        (click)="indicatorDetails()"
+                        class="btn btn-info btn-sm btn-icon-split">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-list"></i>
+                            </span>
+                            <span class="text">Details</span>
+                        </a>
+                    </td>
+                  </ng-container>
+
+
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="5">No data Available</td>
+                </tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+        </div>
+ -->
+
+
+      <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
@@ -25,37 +88,31 @@
                         <th>Value</th>
                         <th>Performance</th>
                         <th>Next Evaluation Date</th>
-
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
 
 
-                        <tr>
+
+
+                        <tr *ngFor="let indicator of indicators">
 
                             <td>
-                               test
+                               {{indicator.name}}
                             </td>
+                            <td>
+                                N/A
+                        </td>
                             <td>
                                N/A
                             </td>
-                            <td class="perf text-good">
-                               14
+                            <td >
+                                -/-/-
                             </td>
 
                             <td>
-
-                            dd-MM-yyyy
-                            </td>
-
-
-
-
-
-
-                            <td>
-                                <a href="" class="btn btn-info btn-sm btn-icon-split">
+                                <a routerLink="{{indicator.id}}" class="btn btn-info btn-sm btn-icon-split">
                                     <span class="icon text-white-50">
                                         <i class="fas fa-list"></i>
                                     </span>
@@ -69,24 +126,7 @@
 
 
 
-                    <tr>
 
-                        <td>test</td>
-                        <td>N/A</td>
-                        <td>N/A</td>
-                        <td>-/-/-</td>
-                        <td>
-                            <a href="" class="btn btn-info btn-sm btn-icon-split">
-                                <span class="icon text-white-50">
-                                    <i class="fas fa-list"></i>
-                                </span>
-                                <span class="text">Details</span>
-                            </a>
-
-
-
-                        </td>
-                    </tr>
 
 
                 </tbody>
@@ -120,7 +160,6 @@
 
 
 
-<!-- Modal1 -->
 <div class="modal fade" id="indicatorForm" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
@@ -129,13 +168,13 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="addIndicator" action="./AddIndicator" method="post">
+                <form id="addIndicator" #myForm="ngForm"  >
                     <div class="row">
                         <div class="col-md-6">
 
                             <div class="form-group form-floating">
 
-                                <input type="text" class="form-control" placeholder="" name="name" id="name" required>
+                                <input type="text" class="form-control" placeholder="" name="name" id="name"  required>
                                 <label for="name">Indicator's name</label>
 
                             </div>
@@ -255,14 +294,7 @@
                                         </select>
                                         <label for="unit">Indicator Unit</label>
                                     </div>
-                                    <!--                                                <div class="col-6 form-group form-floating">
-                                                    <select id="perf" class="form-select" name="performance">
-                                                        <option value="asc">&#8593 Increment</option>
-                                                        <option value="desc">&#8595 Decrement</option>
 
-                                                    </select>
-                                                    <label for="perf">Performance Indicator</label>
-                                                </div> -->
 
 
                                 </div>
@@ -295,10 +327,12 @@
 
                             <div class="applist">
 
-                                    <input name="appC" type="checkbox" value=""><span>
-                                     T24
-                                    </span>
-
+                                <input name="apps"ngModel [ngModelOptions]="{standalone: true}" [(ngModel)]="apps" type="checkbox" value="3"><span>
+                                    T24
+                                </span>
+                                <input name="apps" ngModel [(ngModel)]="apps" [ngModelOptions]="{standalone: true}" type="checkbox" value="2"><span>
+                                    T247
+                                </span>
 
 
                             </div>
@@ -309,7 +343,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" form="addIndicator" class="btn btn-primary"> <i
+                <button  (click)="indicatorDetails()" type="submit" form="addIndicator" class="btn btn-primary"  data-bs-dismiss="modal"> <i
                         class="fas fa-plus fa-sm text-white-50"></i> Add</button>
             </div>
         </div>
