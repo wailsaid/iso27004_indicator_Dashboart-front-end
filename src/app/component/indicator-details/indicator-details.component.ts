@@ -26,8 +26,10 @@ export class IndicatorDetailsComponent implements OnInit {
 
 
   deleteIndicator(){
-    this.indicatorService.deleteIndicator(this.indicator);
-    this.router.navigate(['indicator']);
+    this.indicatorService.deleteIndicator(this.indicator).subscribe(()=>{
+
+      this.router.navigate(['indicator']);
+    });
   }
 
 }

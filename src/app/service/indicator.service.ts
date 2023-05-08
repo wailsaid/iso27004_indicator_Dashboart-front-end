@@ -21,7 +21,7 @@ export class IndicatorService {
   }
 
 
-  deleteIndicator(indicator : Indicator){
+  deleteIndicator(indicator : Indicator):Observable<Indicator> {
     return this.http.delete<Indicator>(`${this.url}/${indicator.id}`);
   }
 }
