@@ -19,6 +19,11 @@ export class IndicatorService {
     return this.http.get<Indicator>(`${this.url}/${id}`);
 
   }
+
+
+  deleteIndicator(indicator : Indicator){
+    return this.http.delete<Indicator>(`${this.url}/${indicator.id}`);
+  }
 }
 
 
