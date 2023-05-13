@@ -9215,7 +9215,7 @@ input.no-arrow[type=number] {
     -moz-appearance: textfield;
 }
 
-.good{
+.target-achieved{
     color: #008000c7;
     border: 20px solid #008000c7;
 }
@@ -9227,7 +9227,11 @@ input.no-arrow[type=number] {
     color: #e84949ab;
     border: 20px solid #e84949ab;
 }
+
 .text-good{
+    color: #008000c7;
+}
+.text-target-achieved{
     color: #008000c7;
 }
 .text-acceptable{

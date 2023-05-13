@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { DataTablesModule } from "angular-datatables";
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -16,6 +17,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTableModule } from '@angular/material/table'
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 
@@ -27,11 +29,15 @@ import { IndicatorComponent } from './component/indicators/indicators.component'
 import { AppsComponent } from './component/apps/apps.component';
 import { IndicatorDetailsComponent } from './component/indicator-details/indicator-details.component';
 
+
+import * as echarts from 'echarts';
+import { NgxEchartsModule } from 'ngx-echarts';
+
 const routes: Routes = [
   { path: '', component: DashboardComponent },
   { path: 'user', component: UserComponent },
   { path: 'indicator', component: IndicatorComponent },
-  { path: 'indicator/:id', component: IndicatorDetailsComponent},
+  { path: 'indicator/:id', component: IndicatorDetailsComponent },
   { path: 'apps', component: AppsComponent }
 ];
 
@@ -55,12 +61,20 @@ const routes: Routes = [
     BrowserAnimationsModule,
     MatDialogModule,
     MatIconModule,
-     MatFormFieldModule,
-     MatTableModule,
-     MatPaginatorModule,
-     MatInputModule,
-     FormsModule,
-    HttpClientModule, DataTablesModule,
+    MatFormFieldModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatInputModule,
+    MatCheckboxModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    DataTablesModule,
+
+    NgxEchartsModule.forRoot({
+      echarts
+    }),
+
     RouterModule.forRoot(routes),
 
   ],
