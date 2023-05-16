@@ -203,26 +203,26 @@
                         <div class="d-flex justify-content-center mb-lg-2">
 
                             <h3 id="indicatorValue"
-                                class="bold indicator-status {{LatestEvaluation.status?.toLocaleLowerCase()}}">
-                                {{LatestEvaluation.value}} </h3>
+                                class="bold indicator-status {{LatestEvaluation!.status?.toLocaleLowerCase()}}">
+                                {{LatestEvaluation!.value}} </h3>
 
                         </div>
 
                         <h5><strong>Status: </strong>
-                            <span id="status" class="bold text-{{LatestEvaluation.status?.toLocaleLowerCase()}}">
-                                {{LatestEvaluation.status}}</span>
+                            <span id="status" class="bold text-{{LatestEvaluation!.status?.toLocaleLowerCase()}}">
+                                {{LatestEvaluation!.status}}</span>
                         </h5>
                         <h5><strong>Performance: </strong>
                             <ng-container *ngIf="LatestEvaluation?.performance! >= 0;else down ">
                                 <span class="text-good bold">
-                                    &#8593; {{LatestEvaluation.performance}}
+                                    &#8593; {{LatestEvaluation!.performance}}
                                 </span>
 
                             </ng-container>
                             <ng-template #down>
                                 <span class="text-bad bold">
 
-                                    &#8595; {{LatestEvaluation.performance}}
+                                    &#8595; {{LatestEvaluation!.performance}}
                                 </span>
                             </ng-template>
                         </h5>
@@ -237,7 +237,7 @@
                             </li>
                         </ul>
                         <h6> <strong>Evaluation Date:</strong>
-                            {{LatestEvaluation.evaluationDate.toString().substr(0,10)}}</h6>
+                            {{LatestEvaluation!.evaluationDate.toString().substr(0,10)}}</h6>
                         <h6><strong>Next Evaluation Date:</strong>
                             {{LatestEvaluation.nextEvaluationDate!.toString().substr(0,10)}} </h6>
 

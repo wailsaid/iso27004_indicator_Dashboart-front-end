@@ -13,7 +13,7 @@ export class UserComponent implements OnInit, OnDestroy {
   username: string = "";
   email: string = "";
   password: string = "";
-  role: string = "user";
+  role: string = "USER";
 
   users: User[] = [];
 
@@ -39,7 +39,7 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   addUser() {
-    const nuser: User = {
+    var nuser: User = {
       username: this.username,
       email: this.email,
       password: this.password,
@@ -50,7 +50,7 @@ export class UserComponent implements OnInit, OnDestroy {
       this.users.push(u);
       this.username = "";
       this.email = "";
-      this.role = "user";
+      this.role = "USER";
       this.password = "";
     });
 

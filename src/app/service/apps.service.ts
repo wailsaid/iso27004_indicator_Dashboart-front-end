@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Observable } from 'rxjs';
+import { Observable, share } from 'rxjs';
 
 
 const httpOptions = {
@@ -20,15 +20,15 @@ export class AppsService {
   constructor(private http : HttpClient) { }
 
   getApps(): Observable<App[]>{
-    return this.http.get<App[]>(this.url);
+    return this.http.get<App[]>(this.url).pipe(share());
   }
 
   deleteApp(app :App) :Observable<App>{
-   return  this.http.delete<App>(`${this.url}/${app.id}`);
+   return  this.http.delete<App>(`${this.url}/${app.id}`).pipe(share());
   }
 
   CreateApp(newapp :App):Observable<App>{
-    return this.http.post<App>(this.url,newapp);
+    return this.http.post<App>(this.url,newapp).pipe(share());
   }
 
 }

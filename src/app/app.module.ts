@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { DataTablesModule } from "angular-datatables";
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -32,14 +32,17 @@ import { IndicatorDetailsComponent } from './component/indicator-details/indicat
 
 import * as echarts from 'echarts';
 import { NgxEchartsModule } from 'ngx-echarts';
+import LoginComponent from './component/login/login.component';
+import { HomeComponent } from './component/home/home.component';
+import { AuthInterceptor, ErrorInterceptor } from './auth.guard';
 
-const routes: Routes = [
-  { path: '', component: DashboardComponent },
+/* const routes: Routes = [
+  { path: 'dashboard', component: DashboardComponent },
   { path: 'user', component: UserComponent },
   { path: 'indicator', component: IndicatorComponent },
   { path: 'indicator/:id', component: IndicatorDetailsComponent },
   { path: 'apps', component: AppsComponent }
-];
+]; */
 
 
 @NgModule({
@@ -52,6 +55,8 @@ const routes: Routes = [
     IndicatorComponent,
     AppsComponent,
     IndicatorDetailsComponent,
+    LoginComponent,
+    HomeComponent,
 
 
   ],
@@ -75,10 +80,20 @@ const routes: Routes = [
       echarts
     }),
 
-    RouterModule.forRoot(routes),
+  //  RouterModule.forRoot(routes),
 
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },  {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

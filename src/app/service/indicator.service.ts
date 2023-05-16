@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { App } from './apps.service';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, share } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,60 +13,60 @@ export class IndicatorService {
   constructor(private http: HttpClient) { }
 
   getALLIndicator(): Observable<Indicator[]> {
-    return this.http.get<Indicator[]>(this.url);
+    return this.http.get<Indicator[]>(this.url).pipe(share());
 
   }
-  getRIndicator() :  Observable<Indicator[]> {
-    return this.http.get<Indicator[]>(`${this.url}/not-evaluated`);
+  getRIndicator(): Observable<Indicator[]> {
+    return this.http.get<Indicator[]>(`${this.url}/not-evaluated`).pipe(share());
   }
 
 
   getIndicator(id: number): Observable<Indicator> {
 
-    return this.http.get<Indicator>(`${this.url}/${id}`);
+    return this.http.get<Indicator>(`${this.url}/${id}`).pipe(share());
 
   }
 
   addIndicator(indicator: Indicator): Observable<Indicator> {
-    return this.http.post<Indicator>(this.url, indicator);
+    return this.http.post<Indicator>(this.url, indicator).pipe(share());
 
   }
 
 
-  getEvalaution(indicatorID ?: number): Observable<Evaluation>{
-    return this.http.get<Evaluation>(`${this.evaluationURL}/${indicatorID}`);
+  getEvalaution(indicatorID?: number): Observable<Evaluation> {
+    return this.http.get<Evaluation>(`${this.evaluationURL}/${indicatorID}`).pipe(share());
   }
-  getAllEvalautions(): Observable<Evaluation[]>{
-    return this.http.get<Evaluation[]>(this.evaluationURL);
+  getAllEvalautions(): Observable<Evaluation[]> {
+    return this.http.get<Evaluation[]>(this.evaluationURL).pipe(share());
   }
-  getAllEvalautionID(indicatorID ?: number): Observable<Evaluation[]>{
-    return this.http.get<Evaluation[]>(`${this.evaluationURL}/all/${indicatorID}`);
+  getAllEvalautionID(indicatorID?: number): Observable<Evaluation[]> {
+    return this.http.get<Evaluation[]>(`${this.evaluationURL}/all/${indicatorID}`).pipe(share());
   }
 
-  Evaluate(evaluation : Evaluation): Observable<Evaluation>{
-    return this.http.post<Evaluation>(this.evaluationURL,evaluation);
+  Evaluate(evaluation: Evaluation): Observable<Evaluation> {
+    return this.http.post<Evaluation>(this.evaluationURL, evaluation).pipe(share());
   }
 
 
   deleteIndicator(indicator: Indicator): Observable<Indicator> {
-    return this.http.delete<Indicator>(`${this.url}/${indicator.id}`);
+    return this.http.delete<Indicator>(`${this.url}/${indicator.id}`).pipe(share());
   }
 
-  editIndicator(indicator: Indicator): Observable<Indicator>  {
+  editIndicator(indicator: Indicator): Observable<Indicator> {
 
-    indicator.checked = ! indicator.checked;
-    return this.http.put<Indicator>(this.url,indicator);
+    indicator.checked = !indicator.checked;
+    return this.http.put<Indicator>(this.url, indicator).pipe(share());
   }
 
-  getDashboard() :  Observable<Evaluation[]>{
-    return this.http.get<Evaluation[]>(`${this.evaluationURL}/dashboard`)
+  getDashboard(): Observable<Evaluation[]> {
+    return this.http.get<Evaluation[]>(`${this.evaluationURL}/dashboard`).pipe(share());
 
   }
 }
 
 
 export interface Indicator {
-  id ?: number
+  id?: number
   name: string,
   type: string,
   category: string,
@@ -86,12 +86,12 @@ export interface Indicator {
 }
 
 export interface Evaluation {
-  id ?: number,
+  id?: number,
   value: number,
   performance?: number,
   evaluationDate: Date,
-  status ?:string,
-  nextEvaluationDate ?: Date,
+  status?: string,
+  nextEvaluationDate?: Date,
   indicator: Indicator
 
 }

@@ -3,7 +3,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
-import { App } from 'src/app/service/apps.service';
+import { App, AppsService } from 'src/app/service/apps.service';
+import { AuthService } from 'src/app/service/auth.service';
 import { Evaluation, Indicator, IndicatorService } from 'src/app/service/indicator.service';
 
 
@@ -12,7 +13,7 @@ import { Evaluation, Indicator, IndicatorService } from 'src/app/service/indicat
   templateUrl: './indicators.component.html',
   styleUrls: ['./indicators.component.css']
 })
-export class IndicatorComponent implements AfterViewInit, OnInit, OnDestroy {
+export class IndicatorComponent implements  OnInit, OnDestroy {
 
 
 
@@ -34,25 +35,27 @@ export class IndicatorComponent implements AfterViewInit, OnInit, OnDestroy {
 
 
   displayedColumns: string[] = ['id', 'name', 'category', 'type', 'acceptableValue', 'action'];
-  dataSource: MatTableDataSource<Indicator>;
 
 
   indicators: Indicator[] = [];
   evals: Evaluation[] = [];
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
 
 
-  constructor(private indicatorService: IndicatorService) {
-    this.dataSource = new MatTableDataSource();
+  constructor(private indicatorService: IndicatorService, private appsevice: AppsService, public authservice : AuthService) {
 
   }
   private sub1 !: Subscription;
   private sub2 !: Subscription;
+  private sub3 !: Subscription;
+  private sub4 !: Subscription;
+
+
   ngOnDestroy(): void {
     this.sub1?.unsubscribe();
     this.sub2?.unsubscribe();
+    this.sub3?.unsubscribe();
+    this.sub4?.unsubscribe();
   }
   ngOnInit(): void {
     this.sub1 = this.indicatorService.getAllEvalautions().subscribe(data => {
@@ -62,35 +65,25 @@ export class IndicatorComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
 
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
-    //this.loadData();
+  listapp : App[] = [];
+  loadData() {
+    this.sub4 = this.appsevice.getApps().subscribe((apps) => this.listapp = apps);
+
   }
 
-  /*   loadData() {
-      this.indicatorService.getALLIndicator().subscribe(
-        (data) => {
-          this.dataSource.data = data;
-        }
-        (error) => {
-          console.log(error);
-        }
-      );
+
+
+
+
+  /*
+    applyFilter(event: Event) {
+      const filterValue = (event.target as HTMLInputElement).value;
+      this.dataSource.filter = filterValue.trim().toLowerCase();
+
+      if (this.dataSource.paginator) {
+        this.dataSource.paginator.firstPage();
+      }
     } */
-
-
-
-
-
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
-  }
 
   addIndicator() {
 
@@ -140,8 +133,7 @@ export class IndicatorComponent implements AfterViewInit, OnInit, OnDestroy {
 
   edit(indicator: Indicator) {
 
-
-    this.indicatorService.editIndicator(indicator).subscribe();
+    this.sub3 = this.indicatorService.editIndicator(indicator).subscribe();
 
   }
 
