@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { App, AppsService } from 'src/app/service/apps.service';
+import { App, AppsService } from 'src/app/service/apps/apps.service';
 import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-apps',

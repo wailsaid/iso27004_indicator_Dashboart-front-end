@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Evaluation, IndicatorService } from 'src/app/service/indicator.service';
+import { Evaluation, IndicatorService } from 'src/app/service/indicator-Evaluation/indicator.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,5 +20,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
+  }
+  nodata(): boolean {
+    if (this.evaluations.length > 0) {
+      return true;
+    }
+    return false;
   }
 }

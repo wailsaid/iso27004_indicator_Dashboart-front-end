@@ -14,7 +14,11 @@
                     <div class="row">
 
 
-
+                        <ng-container *ngIf="evaluations.length<1">
+                            <div class="d-flex justify-content-center bold">
+                                No Evalaution available at the moment.
+                            </div>
+                        </ng-container>
 
 
                         <div *ngFor="let eval of evaluations" class="col-xl-4 col-lg-5">

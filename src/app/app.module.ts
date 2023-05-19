@@ -18,7 +18,7 @@ import { MatTableModule } from '@angular/material/table'
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 import { SideBarComponent } from './component/side-bar/side-bar.component';
@@ -34,7 +34,7 @@ import * as echarts from 'echarts';
 import { NgxEchartsModule } from 'ngx-echarts';
 import LoginComponent from './component/login/login.component';
 import { HomeComponent } from './component/home/home.component';
-import { AuthInterceptor, ErrorInterceptor } from './auth.guard';
+import { AuthInterceptor, ErrorInterceptor } from './gaurd/auth.guard';
 
 /* const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
@@ -75,7 +75,7 @@ import { AuthInterceptor, ErrorInterceptor } from './auth.guard';
     ReactiveFormsModule,
     HttpClientModule,
     DataTablesModule,
-
+    MatSnackBarModule,
     NgxEchartsModule.forRoot({
       echarts
     }),

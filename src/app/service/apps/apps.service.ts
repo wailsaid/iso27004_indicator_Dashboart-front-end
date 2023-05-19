@@ -35,5 +35,5 @@ export class AppsService {
 
 export interface App {
   id ?: number,
-  name: string
+  name?: string
 }

@@ -3,9 +3,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
-import { App, AppsService } from 'src/app/service/apps.service';
-import { AuthService } from 'src/app/service/auth.service';
-import { Evaluation, Indicator, IndicatorService } from 'src/app/service/indicator.service';
+import { App, AppsService } from 'src/app/service/apps/apps.service';
+import { AuthService } from 'src/app/service/Auth/auth.service';
+import { Evaluation, Indicator, IndicatorService } from 'src/app/service/indicator-Evaluation/indicator.service';
 
 
 @Component({
@@ -13,7 +13,7 @@ import { Evaluation, Indicator, IndicatorService } from 'src/app/service/indicat
   templateUrl: './indicators.component.html',
   styleUrls: ['./indicators.component.css']
 })
-export class IndicatorComponent implements  OnInit, OnDestroy {
+export class IndicatorComponent implements OnInit, OnDestroy {
 
 
 
@@ -42,7 +42,7 @@ export class IndicatorComponent implements  OnInit, OnDestroy {
 
 
 
-  constructor(private indicatorService: IndicatorService, private appsevice: AppsService, public authservice : AuthService) {
+  constructor(private indicatorService: IndicatorService, private appsevice: AppsService, public authservice: AuthService) {
 
   }
   private sub1 !: Subscription;
@@ -65,7 +65,7 @@ export class IndicatorComponent implements  OnInit, OnDestroy {
   }
 
 
-  listapp : App[] = [];
+  listapp: App[] = [];
   loadData() {
     this.sub4 = this.appsevice.getApps().subscribe((apps) => this.listapp = apps);
 
@@ -73,12 +73,22 @@ export class IndicatorComponent implements  OnInit, OnDestroy {
 
 
 
+  addApp(a: App) {
+    let index = this.apps.indexOf(a);
+    if (index === -1) {
+      this.apps.push(a);
+      //console.log(this.apps);
+      return;
+    }
+    delete this.apps[index];
+   // console.log(this.apps);
+  }
 
 
   /*
-    applyFilter(event: Event) {
-      const filterValue = (event.target as HTMLInputElement).value;
-      this.dataSource.filter = filterValue.trim().toLowerCase();
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
 
       if (this.dataSource.paginator) {
         this.dataSource.paginator.firstPage();

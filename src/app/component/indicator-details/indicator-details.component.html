@@ -6,16 +6,16 @@
 
 
 
-        <div>
-            <button type="button" class="btn btn-primary btn-sm btn-icon-split" data-bs-toggle="modal"
-                [attr.data-bs-target]="'#EvaluationModal'+indicator.id">
+        <div *ngIf="authservice.isAdmin()">
+            <button *ngIf="authservice.isAdmin()" type="button" class="btn btn-primary btn-sm btn-icon-split"
+                data-bs-toggle="modal" [attr.data-bs-target]="'#EvaluationModal'+indicator.id">
                 <span class="icon text-white-50">
                     <i class="fas fa-check"></i>
                 </span>
                 <span class="text">Evaluate</span>
             </button>
 
-            <div class="modal fade" id="EvaluationModal{{indicator.id}}" tabindex="-1"
+            <div *ngIf="authservice.isAdmin()" class="modal fade" id="EvaluationModal{{indicator.id}}" tabindex="-1"
                 aria-labelledby="EvaluationModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -57,16 +57,16 @@
 
 
 
-            <button type="button" class="btn btn-danger btn-sm btn-icon-split" data-bs-toggle="modal"
-                [attr.data-bs-target]="'#deleteModal'+indicator.id">
+            <button *ngIf="authservice.isAdmin()" type="button" class="btn btn-danger btn-sm btn-icon-split"
+                data-bs-toggle="modal" [attr.data-bs-target]="'#deleteModal'+indicator.id">
                 <span class="icon text-white-50">
                     <i class="fas fa-trash"></i>
                 </span>
                 <span class="text">Delete</span>
             </button>
             <!-- Delete Modal -->
-            <div class="modal fade" id="deleteModal{{indicator.id}}" tabindex="-1" aria-labelledby="deleteModalLabel"
-                aria-hidden="true">
+            <div *ngIf="authservice.isAdmin()" class="modal fade" id="deleteModal{{indicator.id}}" tabindex="-1"
+                aria-labelledby="deleteModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered ">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -98,8 +98,8 @@
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-primary">Indicator details</h6>
 
-                    <a class="btn btn-secondary btn-sm btn-icon-split"
-                    data-bs-toggle="modal" data-bs-target="#indicatorForm">
+                    <a *ngIf="authservice.isAdmin()" class="btn btn-secondary btn-sm btn-icon-split"
+                        data-bs-toggle="modal" data-bs-target="#indicatorForm">
                         <span class="icon text-white-50">
                             <i class="fas fa-edit"></i>
                         </span>
@@ -191,7 +191,7 @@
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary">Evaluation overview</h6>
 
-                        <mat-checkbox (ngModelChange)="checked(indicator)"
+                        <mat-checkbox *ngIf="authservice.isAdmin()" (ngModelChange)="checked(indicator)"
                             [(ngModel)]="indicator.checked"></mat-checkbox>
 
 
@@ -333,7 +333,8 @@
 </ng-container>
 
 
-<div class="modal fade" id="indicatorForm" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+<div *ngIf="authservice.isAdmin()" class="modal fade" id="indicatorForm" tabindex="-1" aria-labelledby="ModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-fullscreen">
         <div class="modal-content">
             <div class="modal-header">
@@ -482,32 +483,33 @@
                             <div class="form-group form-floating">
 
                                 <input type="text" class="form-control" placeholder="" name="infoCustomer"
-                                [(ngModel)]="infoCustomer" id="infoCustomer" required>
+                                    [(ngModel)]="infoCustomer" id="infoCustomer" required>
                                 <label for="infoCustomer">Information Customer</label>
 
                             </div>
 
                             <div class="applist">
 
-                                <input name="apps" ngModel [ngModelOptions]="{standalone: true}" [(ngModel)]="apps"
-                                    type="checkbox" value="3"><span>
-                                    T24
-                                </span>
-                                <input name="apps" ngModel [(ngModel)]="apps" [ngModelOptions]="{standalone: true}"
-                                    type="checkbox" value="2"><span>
-                                    T247
-                                </span>
+                                <div *ngFor="let app of listapp ">
+                                    <input type="checkbox"
+                                    [id]="app.id"
+                                    [value]="app.id"
+                                    [name]="app.name"
+                                    [checked]="isChecked(app.id)"
+                                    (click)="onChange($event,app.name)" />
+                                    <label [for]="app.id"> {{ app.name }}</label>
 
 
+                                </div>
                             </div>
                         </div>
                     </div>
-
                 </form>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" form="addIndicator" class="btn btn-primary" data-bs-dismiss="modal"> Update</button>
+                <button type="submit" form="addIndicator" class="btn btn-primary" data-bs-dismiss="modal">
+                    Update</button>
             </div>
         </div>
     </div>

@@ -6,8 +6,8 @@
 
 
 
-        <button *ngIf="this.authservice.isAdmin()" (click)="loadData()" data-bs-toggle="modal" data-bs-target="#indicatorForm"
-            class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+        <button *ngIf="this.authservice.isAdmin()" (click)="loadData()" data-bs-toggle="modal"
+            data-bs-target="#indicatorForm" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                 class="fas fa-plus fa-sm text-white-50"></i> Add Indicator</button>
 
     </div>
@@ -76,7 +76,9 @@
         </div>
  -->
 
+        <ng-container *ngIf="evals.length<1 && indicators.length<1">
 
+        </ng-container>
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
@@ -184,7 +186,8 @@
 
 
 
-<div *ngIf="this.authservice.isAdmin()" class="modal fade" id="indicatorForm" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+<div *ngIf="this.authservice.isAdmin()" class="modal fade" id="indicatorForm" tabindex="-1" aria-labelledby="ModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-fullscreen">
         <div class="modal-content">
             <div class="modal-header">
@@ -342,9 +345,12 @@
 
                                 <div *ngFor="let app of listapp">
 
-                                    <input name="apps" type="checkbox" value="{{app.id}}"><span>
+                                    <input name="apps" type="checkbox" (click)="addApp(app)" value="{{app.id}}">
+                                     <span>
                                         {{app.name}}
                                     </span>
+
+
                                 </div>
 
 

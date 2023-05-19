@@ -1,7 +1,7 @@
 //import * as $ from 'jquery';
 import { AfterViewInit,Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/service/auth.service';
+import { AuthService } from 'src/app/service/Auth/auth.service';
 
 @Component({
   selector: 'app-side-bar',

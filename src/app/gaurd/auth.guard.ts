@@ -1,7 +1,7 @@
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from './service/auth.service';
+import { AuthService } from '../service/Auth/auth.service';
 
 
 @Injectable({
@@ -58,10 +58,11 @@ export class AuthInterceptor implements HttpInterceptor {
 import { HttpErrorResponse } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService, private router : Router) { }
+  constructor(private authService: AuthService, private snackBar: MatSnackBar,private router : Router) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
@@ -70,6 +71,14 @@ export class ErrorInterceptor implements HttpInterceptor {
           // Unauthorized or Forbidden error, log out the user
           this.authService.logout();
           this.router.navigate(['login']);
+        }
+        else if (error.status === 400) {
+          this.router.navigate(['']);
+          this.snackBar.open(error.error, 'Close', {
+            duration: 5000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'end'
+          });
         }
         // Re-throw other errors
         return throwError(error);

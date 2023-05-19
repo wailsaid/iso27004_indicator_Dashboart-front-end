@@ -1,7 +1,8 @@
 import { Component, OnDestroy } from '@angular/core';
-import { AuthResquest, AuthService } from 'src/app/service/auth.service';
+import { AuthResquest, AuthService } from 'src/app/service/Auth/auth.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { error } from 'jquery';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -24,7 +25,10 @@ export default class LoginComponent implements OnDestroy {
  this.sub1= this.authService.login(request).subscribe(response => {
       localStorage.setItem('token', response.token);
       localStorage.setItem('user', JSON.stringify(response.user));
-       this.router.navigate(['/']);});
+       this.router.navigate(['/']);},
+       error=>{
+        this.errorMessage ="wrong credentials";
+       });
   }
   ngOnDestroy(): void {
    this.sub1!.unsubscribe();
