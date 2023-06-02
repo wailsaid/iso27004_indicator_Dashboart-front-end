@@ -148,10 +148,11 @@ export class IndicatorDetailsComponent implements OnInit, OnDestroy {
 
   }
   loadData() {
-    this.sub8 = this.appsevice.getApps().subscribe((apps) => {
+   if(this.authservice.isAdmin())
+   { this.sub8 = this.appsevice.getApps().subscribe((apps) => {
       this.listapp = apps;
       //console.log(this.listapp);
-    });
+    });}
     //console.log(this.apps);
 
 

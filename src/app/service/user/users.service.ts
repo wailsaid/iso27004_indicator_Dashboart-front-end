@@ -10,32 +10,23 @@ export class UsersService {
 
   constructor(private http: HttpClient) { }
 
-  private userList$: Observable<User[]> | undefined;
   getUsers(): Observable<User[]> {
-    if (!this.userList$) {
 
-      this.userList$ = this.http.get<User[]>(this.url).pipe(share());
-    }
-    return this.userList$;
+      return this.http.get<User[]>(this.url).pipe(share());
+
   }
 
-  private deleteuser$: Observable<User> | undefined;
   deleteUser(user: User): Observable<User> {
-    if (!this.deleteuser$) {
-      this.deleteuser$ = this.http.delete<User>(`${this.url}/${user.id}`).pipe(share());
+      return this.http.delete<User>(`${this.url}/${user.id}`).pipe(share());
 
-    }
-    return this.deleteuser$;
+
   }
 
 
   private user$ : Observable<User> | undefined;
   createUser(newuser: User): Observable<User> {
-    if (!this.user$) {
+    return this.user$ = this.http.post<User>(this.url, newuser).pipe(share());
 
-     this.user$ = this.http.post<User>(this.url, newuser).pipe(share());
-    }
-    return this.user$;
 
   }
 }

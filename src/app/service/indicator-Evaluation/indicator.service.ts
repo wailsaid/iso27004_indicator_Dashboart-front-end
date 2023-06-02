@@ -9,6 +9,7 @@ import { Observable, share } from 'rxjs';
 export class IndicatorService {
   private url: string = "http://localhost:8080/api/v1/indicator";
   private evaluationURL: string = "http://localhost:8080/api/v1/evaluation";
+  private downloadURL: string = "http://localhost:8080/generate-pdf";
 
   constructor(private http: HttpClient) { }
 
@@ -61,6 +62,12 @@ export class IndicatorService {
   getDashboard(): Observable<Evaluation[]> {
     return this.http.get<Evaluation[]>(`${this.evaluationURL}/dashboard`).pipe(share());
 
+  }
+  
+  getPDF(){
+  return this.http.get(this.downloadURL,{
+  responseType:'blob'
+  })
   }
 }
 

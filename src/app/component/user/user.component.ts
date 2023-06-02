@@ -10,9 +10,9 @@ import { Subscription } from 'rxjs';
 export class UserComponent implements OnInit, OnDestroy {
 
 
-  username: string = "";
-  email: string = "";
-  password: string = "";
+  username!: string ;
+  email!: string ;
+  password!: string ;
   role: string = "USER";
 
   users: User[] = [];
@@ -39,7 +39,7 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   addUser() {
-    var nuser: User = {
+    const nuser:User = {
       username: this.username,
       email: this.email,
       password: this.password,

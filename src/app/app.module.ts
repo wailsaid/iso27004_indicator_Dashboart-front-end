@@ -35,6 +35,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import LoginComponent from './component/login/login.component';
 import { HomeComponent } from './component/home/home.component';
 import { AuthInterceptor, ErrorInterceptor } from './gaurd/auth.guard';
+import { ReportComponent } from './component/report/report.component';
 
 /* const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
@@ -57,6 +58,7 @@ import { AuthInterceptor, ErrorInterceptor } from './gaurd/auth.guard';
     IndicatorDetailsComponent,
     LoginComponent,
     HomeComponent,
+    ReportComponent,
 
 
   ],
