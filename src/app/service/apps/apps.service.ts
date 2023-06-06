@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Injectable } from '@angular/core';
 import { Observable, share } from 'rxjs';
+import { host } from "src/app/app.component";
 
 
 const httpOptions = {
@@ -13,7 +14,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class AppsService {
-  private url :string = "http://localhost:8080/api/v1/app";
+  private url :string = `http://${host}:8080/api/v1/app`;
 
 
 

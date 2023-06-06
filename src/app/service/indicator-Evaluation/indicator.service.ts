@@ -1,15 +1,16 @@
-import { Injectable } from '@angular/core';
-import { App } from '../apps/apps.service';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable, share } from 'rxjs';
+import { host } from 'src/app/app.component';
+import { App } from '../apps/apps.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class IndicatorService {
-  private url: string = "http://localhost:8080/api/v1/indicator";
-  private evaluationURL: string = "http://localhost:8080/api/v1/evaluation";
-  private downloadURL: string = "http://localhost:8080/generate-pdf";
+  private url: string = `http://${host}:8080/api/v1/indicator`;
+  private evaluationURL: string = `http://${host}:8080/api/v1/evaluation`;
+  private downloadURL: string = `http://${host}:8080/api/v1/generate-pdf`;
 
   constructor(private http: HttpClient) { }
 
@@ -63,7 +64,7 @@ export class IndicatorService {
     return this.http.get<Evaluation[]>(`${this.evaluationURL}/dashboard`).pipe(share());
 
   }
-  
+
   getPDF(){
   return this.http.get(this.downloadURL,{
   responseType:'blob'

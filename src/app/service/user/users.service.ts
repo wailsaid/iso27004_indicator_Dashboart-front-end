@@ -1,12 +1,13 @@
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable, share } from 'rxjs';
+import { host } from "src/app/app.component";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
-  private url: string = "http://localhost:8080/api/v1/user";
+  private url: string = `http://${host}:8080/api/v1/user`;
 
   constructor(private http: HttpClient) { }
 
@@ -35,6 +36,6 @@ export interface User {
   id?: number,
   username: string,
   email: string,
-  password: string,
+  password?: string,
   role: string
 }

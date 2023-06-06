@@ -1,6 +1,5 @@
-import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import { AuthService } from '../service/Auth/auth.service';
 
 
@@ -25,7 +24,7 @@ export class AuthGuard {
 
 
 
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable()
@@ -37,7 +36,7 @@ export class AuthInterceptor implements HttpInterceptor {
     const token = this.authService.getAuthToken();
 
     // Check if the request URL starts with '/api/v1/' and does not contain the Authorization header
-    if (request.url.startsWith('http://localhost:8080/api/v1/') && !request.headers.has('Authorization')) {
+    if (request.url.startsWith(`http://${host}:8080/api/v1/`) && !request.headers.has('Authorization')) {
       // Clone the request and add the Authorization header with the token
       const authRequest = request.clone({
         setHeaders: {
@@ -56,9 +55,10 @@ export class AuthInterceptor implements HttpInterceptor {
 
 
 import { HttpErrorResponse } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { host } from '../app.component';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {

@@ -13,8 +13,8 @@
 
                             </div>
                             <div class="form-group form-floating ">
-                                <input type="password" class="form-control" placeholder="" name="password" [(ngModel)]="password" id="password" required>
-                                   <i class="fa fa-eye" id="togglePassword"   ></i>
+                                <input type="{{passwordInput}}" class="form-control" placeholder="" name="password" [(ngModel)]="password" id="password" required>
+                                   <i class="fa {{Picon}}" id="togglePassword" (click)="toggleP()"></i>
                                 <label for="password">Password</label>
 
                             </div>

@@ -8,3 +8,5 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'isofront-end';
 }
+
+export const host = '192.168.43.3'

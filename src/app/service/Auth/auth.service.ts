@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map, share } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { share } from 'rxjs/operators';
+import { host } from 'src/app/app.component';
 import { User } from '../user/users.service';
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class AuthService {
   }
 
 
-  private apiUrl = 'http://localhost:8080/auth';
+  private apiUrl = `http://${host}:8080/auth`;
 
   constructor(private http: HttpClient) { }
 

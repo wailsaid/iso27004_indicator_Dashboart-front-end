@@ -102,9 +102,9 @@
                                 <label for="email">E-mail</label>
                             </div>
                             <div class="form-group form-floating">
-                                <input type="password" class="form-control" placeholder="" name="password"
+                                <input type="{{passwordInput}}" class="form-control" placeholder="" name="password"
                                     [(ngModel)]="password" id="password" ngModel required>
-                                <i class="fa fa-eye" id="togglePassword"></i>
+                                <i class="fa {{Picon}}" (click)="toggleP()" id="togglePassword"></i>
                                 <label for="password">Password</label>
                             </div>
 

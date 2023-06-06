@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { saveAs } from 'file-saver';
 import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/service/Auth/auth.service';
 import { Evaluation, IndicatorService } from 'src/app/service/indicator-Evaluation/indicator.service';
 @Component({
   selector: 'app-dashboard',
@@ -11,7 +12,7 @@ import { Evaluation, IndicatorService } from 'src/app/service/indicator-Evaluati
 export class DashboardComponent implements OnInit, OnDestroy {
 
   evaluations: Evaluation[] = [];
-  constructor(private indicatorService: IndicatorService,public dialog: MatDialog) { }
+  constructor(private indicatorService: IndicatorService,public dialog: MatDialog,public authService : AuthService) { }
 
 
   private sub !: Subscription;
@@ -31,6 +32,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
 
   downLoadReport() {
-    this.indicatorService.getPDF().subscribe(pdf => saveAs(pdf,'report.pdf'));
+    this.indicatorService.getPDF().subscribe(pdf => saveAs(pdf,`report ${new Date().toString().substring(0,15)}.pdf`));
   }
 }

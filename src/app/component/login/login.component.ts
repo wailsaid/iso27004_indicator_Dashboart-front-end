@@ -1,8 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
-import { AuthResquest, AuthService } from 'src/app/service/Auth/auth.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { error } from 'jquery';
+import { AuthResquest, AuthService } from 'src/app/service/Auth/auth.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -22,16 +21,31 @@ export default class LoginComponent implements OnDestroy {
       username: this.username,
       password: this.password
     }
- this.sub1= this.authService.login(request).subscribe(response => {
+    this.sub1 = this.authService.login(request).subscribe(response => {
       localStorage.setItem('token', response.token);
       localStorage.setItem('user', JSON.stringify(response.user));
-       this.router.navigate(['/']);},
-       error=>{
-        this.errorMessage ="wrong credentials";
-       });
+      this.router.navigate(['/']);
+    },
+      error => {
+        this.errorMessage = "wrong credentials";
+      });
   }
   ngOnDestroy(): void {
-   this.sub1!.unsubscribe();
+    this.sub1!.unsubscribe();
   }
 
+  Picon: string = "fa-eye";
+  passwordInput: string = "password";
+
+  toggleP() {
+    if (this.passwordInput === "password") {
+      this.passwordInput = "text";
+  this.Picon = "fa-eye-slash";
+
+    } else {
+      this.passwordInput = "password";
+  this.Picon = "fa-eye";
+
+    }
+  }
 }

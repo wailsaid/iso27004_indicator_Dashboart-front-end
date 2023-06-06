@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { User, UsersService } from 'src/app/service/user/users.service';
 import { Subscription } from 'rxjs';
+import { User, UsersService } from 'src/app/service/user/users.service';
 
 @Component({
   selector: 'app-user',
@@ -58,4 +58,20 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
 
+
+
+  Picon: string = "fa-eye";
+  passwordInput: string = "password";
+
+  toggleP() {
+    if (this.passwordInput === "password") {
+      this.passwordInput = "text";
+  this.Picon = "fa-eye-slash";
+
+    } else {
+      this.passwordInput = "password";
+  this.Picon = "fa-eye";
+
+    }
+  }
 }
