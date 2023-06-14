@@ -37,6 +37,17 @@ export class AuthService {
     return false;
   }
 
+  isCollector(): boolean {
+    var userString = localStorage.getItem('user');
+    if (userString) {
+      var user: User = JSON.parse(userString);
+      if (user.role === "COLLECTOR") {
+        return true ;
+      }
+    }
+    return false;
+  }
+
   isAuthenticated(): boolean {
     // Check if the token exists and is not expired
     const token = localStorage.getItem('token');

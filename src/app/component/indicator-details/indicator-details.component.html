@@ -6,8 +6,8 @@
 
 
 
-        <div *ngIf="authservice.isAdmin()">
-            <button *ngIf="authservice.isAdmin()" type="button" class="btn btn-primary btn-sm btn-icon-split"
+        <div >
+            <button *ngIf="authservice.isCollector()" type="button" class="btn btn-primary btn-sm btn-icon-split"
                 data-bs-toggle="modal" [attr.data-bs-target]="'#EvaluationModal'+indicator.id">
                 <span class="icon text-white-50">
                     <i class="fas fa-check"></i>
@@ -15,7 +15,7 @@
                 <span class="text">Evaluate</span>
             </button>
 
-            <div *ngIf="authservice.isAdmin()" class="modal fade" id="EvaluationModal{{indicator.id}}" tabindex="-1"
+            <div *ngIf="authservice.isCollector()" class="modal fade" id="EvaluationModal{{indicator.id}}" tabindex="-1"
                 aria-labelledby="EvaluationModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -286,7 +286,7 @@
 
 
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <table class="table table-bordered" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th>Evaluation Date</th>

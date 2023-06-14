@@ -1,9 +1,9 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { Indicator, Evaluation, IndicatorService } from 'src/app/service/indicator-Evaluation/indicator.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { App, AppsService } from 'src/app/service/apps/apps.service';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/service/Auth/auth.service';
+import { App, AppsService } from 'src/app/service/apps/apps.service';
+import { Evaluation, Indicator, IndicatorService } from 'src/app/service/indicator-Evaluation/indicator.service';
 
 @Component({
   selector: 'app-indicator-details',
@@ -11,6 +11,9 @@ import { AuthService } from 'src/app/service/Auth/auth.service';
   styleUrls: ['./indicator-details.component.css']
 })
 export class IndicatorDetailsComponent implements OnInit, OnDestroy {
+
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject<any>();
 
 
   chartOptions: any;
@@ -125,17 +128,23 @@ export class IndicatorDetailsComponent implements OnInit, OnDestroy {
   value: number = 0;
 
   evaluate() {
-    const evaluate: Evaluation = {
-      value: this.value,
-      evaluationDate: new Date,
-      indicator: this.indicator
+    var uString = localStorage.getItem("user");
+    if(uString){
+      var collector = JSON.parse(uString)
+      const evaluate: Evaluation = {
+        value: this.value,
+        evaluationDate: new Date,
+        indicator: this.indicator,
+        user : collector
+      }
+      this.sub7 = this.indicatorService.Evaluate(evaluate).subscribe((e) => {
+        this.LatestEvaluation = e;
+        this.value = 0;
+        this.listEvaluation.unshift(e);
+        this.dtTrigger.next(this.listEvaluation);
+        this.loadData();
+      });
     }
-    this.sub7 = this.indicatorService.Evaluate(evaluate).subscribe((e) => {
-      this.LatestEvaluation = e;
-      this.value = 0;
-      this.listEvaluation.unshift(e);
-      this.loadData();
-    });
   }
 
 

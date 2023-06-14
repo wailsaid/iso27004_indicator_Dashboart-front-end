@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, share } from 'rxjs';
 import { host } from 'src/app/app.component';
 import { App } from '../apps/apps.service';
+import { User } from '../user/users.service';
 
 @Injectable({
   providedIn: 'root'
@@ -100,6 +101,7 @@ export interface Evaluation {
   evaluationDate: Date,
   status?: string,
   nextEvaluationDate?: Date,
-  indicator: Indicator
+  indicator: Indicator,
+  user : User
 
 }

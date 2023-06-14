@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subject, Subscription } from 'rxjs';
 import { App, AppsService } from 'src/app/service/apps/apps.service';
-import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-apps',
   templateUrl: './apps.component.html',
@@ -8,6 +8,8 @@ import { Subscription } from 'rxjs';
 })
 export class AppsComponent implements OnInit, OnDestroy {
 
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject<any>();
 
 
   appname !: string;
@@ -19,7 +21,10 @@ export class AppsComponent implements OnInit, OnDestroy {
   constructor(private appsService: AppsService,) { }
 
   ngOnInit(): void {
-    this.sub1 = this.appsService.getApps().subscribe((data) => this.apps = data);
+    this.sub1 = this.appsService.getApps().subscribe((data) => {
+      this.apps = data
+    this.dtTrigger.next(data)
+    });
   }
   ngOnDestroy(): void {
     // Unsubscribe from the getUsersSubscription to clean up the subscription

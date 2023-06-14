@@ -1,0 +1,19 @@
+
+            <table class="table table-bordered " datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of alluser">
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.role }}</td>
+                    </tr>
+                </tbody>
+            </table>

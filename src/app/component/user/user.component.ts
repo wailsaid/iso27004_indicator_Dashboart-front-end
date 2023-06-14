@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { User, UsersService } from 'src/app/service/user/users.service';
 
 @Component({
@@ -8,11 +8,12 @@ import { User, UsersService } from 'src/app/service/user/users.service';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit, OnDestroy {
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject<any>();
 
-
-  username!: string ;
-  email!: string ;
-  password!: string ;
+  username!: string;
+  email!: string;
+  password!: string;
   role: string = "USER";
 
   users: User[] = [];
@@ -23,7 +24,10 @@ export class UserComponent implements OnInit, OnDestroy {
   constructor(private userService: UsersService) { }
 
   ngOnInit(): void {
-    this.sub1 = this.userService.getUsers().subscribe((data) => this.users = data);
+    this.sub1 = this.userService.getUsers().subscribe((data) => {
+      this.users = data;
+      this.dtTrigger.next(data);
+    });
   }
   ngOnDestroy(): void {
     // Unsubscribe from the getUsersSubscription to clean up the subscription
@@ -39,7 +43,7 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   addUser() {
-    const nuser:User = {
+    const nuser: User = {
       username: this.username,
       email: this.email,
       password: this.password,
@@ -66,11 +70,11 @@ export class UserComponent implements OnInit, OnDestroy {
   toggleP() {
     if (this.passwordInput === "password") {
       this.passwordInput = "text";
-  this.Picon = "fa-eye-slash";
+      this.Picon = "fa-eye-slash";
 
     } else {
       this.passwordInput = "password";
-  this.Picon = "fa-eye";
+      this.Picon = "fa-eye";
 
     }
   }

@@ -9,4 +9,4 @@ export class AppComponent {
   title = 'isofront-end';
 }
 
-export const host = '192.168.43.3'
+export const host = 'localhost'

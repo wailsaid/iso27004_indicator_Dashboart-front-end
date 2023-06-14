@@ -1,8 +1,5 @@
-import { Component, ViewChild, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subject, Subscription } from 'rxjs';
 import { App, AppsService } from 'src/app/service/apps/apps.service';
 import { AuthService } from 'src/app/service/Auth/auth.service';
 import { Evaluation, Indicator, IndicatorService } from 'src/app/service/indicator-Evaluation/indicator.service';
@@ -14,7 +11,8 @@ import { Evaluation, Indicator, IndicatorService } from 'src/app/service/indicat
   styleUrls: ['./indicators.component.css']
 })
 export class IndicatorComponent implements OnInit, OnDestroy {
-
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject<any>();
 
 
   name: string = "";
@@ -34,7 +32,7 @@ export class IndicatorComponent implements OnInit, OnDestroy {
   apps: App[] = [];
 
 
-  displayedColumns: string[] = ['id', 'name', 'category', 'type', 'acceptableValue', 'action'];
+  //displayedColumns: string[] = ['id', 'name', 'category', 'type', 'acceptableValue', 'action'];
 
 
   indicators: Indicator[] = [];
@@ -60,7 +58,9 @@ export class IndicatorComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.sub1 = this.indicatorService.getAllEvalautions().subscribe(data => {
       this.evals = data;
-      this.sub2 = this.indicatorService.getRIndicator().subscribe(data => this.indicators = data);
+      this.sub2 = this.indicatorService.getRIndicator().subscribe(data => {this.indicators = data
+        this.dtTrigger.next(data);
+      });
     });
   }
 
