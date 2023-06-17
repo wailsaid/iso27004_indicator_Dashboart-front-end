@@ -102,6 +102,6 @@ export interface Evaluation {
   status?: string,
   nextEvaluationDate?: Date,
   indicator: Indicator,
-  user : User
+  resp : User
 
 }

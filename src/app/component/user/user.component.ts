@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { User, UsersService } from 'src/app/service/user/users.service';
 
 @Component({
@@ -8,8 +8,6 @@ import { User, UsersService } from 'src/app/service/user/users.service';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit, OnDestroy {
-  dtOptions: DataTables.Settings = {};
-  dtTrigger: Subject<any> = new Subject<any>();
 
   username!: string;
   email!: string;
@@ -26,7 +24,6 @@ export class UserComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.sub1 = this.userService.getUsers().subscribe((data) => {
       this.users = data;
-      this.dtTrigger.next(data);
     });
   }
   ngOnDestroy(): void {

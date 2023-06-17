@@ -5,8 +5,8 @@ import { host } from "src/app/app.component";
 
 
 const httpOptions = {
-  Headers : new HttpHeaders({
-    'Content-Type':'application/json'
+  Headers: new HttpHeaders({
+    'Content-Type': 'application/json'
   })
 }
 
@@ -14,27 +14,28 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class AppsService {
-  private url :string = `http://${host}:8080/api/v1/app`;
+  private url: string = `http://${host}:8080/api/v1/app`;
 
 
 
-  constructor(private http : HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-  getApps(): Observable<App[]>{
+  getApps(): Observable<App[]> {
     return this.http.get<App[]>(this.url).pipe(share());
   }
 
-  deleteApp(app :App) :Observable<App>{
-   return  this.http.delete<App>(`${this.url}/${app.id}`).pipe(share());
+  deleteApp(app: App): Observable<App> {
+    return this.http.delete<App>(`${this.url}/${app.id}`).pipe(share());
   }
 
-  CreateApp(newapp :App):Observable<App>{
-    return this.http.post<App>(this.url,newapp).pipe(share());
+  CreateApp(newapp: App): Observable<App> {
+    return this.http.post<App>(this.url, newapp).pipe(share());
   }
 
 }
 
+
 export interface App {
-  id ?: number,
+  id?: number,
   name?: string
 }

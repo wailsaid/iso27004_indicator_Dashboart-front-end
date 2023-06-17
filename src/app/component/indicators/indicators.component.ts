@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { App, AppsService } from 'src/app/service/apps/apps.service';
 import { AuthService } from 'src/app/service/Auth/auth.service';
 import { Evaluation, Indicator, IndicatorService } from 'src/app/service/indicator-Evaluation/indicator.service';
@@ -8,11 +8,32 @@ import { Evaluation, Indicator, IndicatorService } from 'src/app/service/indicat
 @Component({
   selector: 'app-indicator',
   templateUrl: './indicators.component.html',
-  styleUrls: ['./indicators.component.css']
+  styleUrls: ['./indicators.component.css'],
+
+
 })
 export class IndicatorComponent implements OnInit, OnDestroy {
-  dtOptions: DataTables.Settings = {};
-  dtTrigger: Subject<any> = new Subject<any>();
+
+
+  active = 1;
+  active2 = 1;
+
+  handleNextPrevClick(stepper: number, a: number) {
+    if (stepper === 1) {
+      this.active = a;
+    } else if (stepper === 2) {
+      this.active2 = a;
+    }
+  }
+
+
+
+
+
+
+
+
+
 
 
   name: string = "";
@@ -59,7 +80,6 @@ export class IndicatorComponent implements OnInit, OnDestroy {
     this.sub1 = this.indicatorService.getAllEvalautions().subscribe(data => {
       this.evals = data;
       this.sub2 = this.indicatorService.getRIndicator().subscribe(data => {this.indicators = data
-        this.dtTrigger.next(data);
       });
     });
   }

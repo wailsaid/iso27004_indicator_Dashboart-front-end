@@ -4,6 +4,7 @@ import { Subject, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/service/Auth/auth.service';
 import { App, AppsService } from 'src/app/service/apps/apps.service';
 import { Evaluation, Indicator, IndicatorService } from 'src/app/service/indicator-Evaluation/indicator.service';
+import { User } from 'src/app/service/user/users.service';
 
 @Component({
   selector: 'app-indicator-details',
@@ -130,13 +131,19 @@ export class IndicatorDetailsComponent implements OnInit, OnDestroy {
   evaluate() {
     var uString = localStorage.getItem("user");
     if(uString){
-      var collector = JSON.parse(uString)
+      var collector:User = JSON.parse(uString)
       const evaluate: Evaluation = {
         value: this.value,
         evaluationDate: new Date,
         indicator: this.indicator,
-        user : collector
-      }
+        resp : {
+        id : collector.id,
+          username:collector.username,
+          email:collector.email,
+          role:collector.role,
+          password : collector.password
+
+              }      }
       this.sub7 = this.indicatorService.Evaluate(evaluate).subscribe((e) => {
         this.LatestEvaluation = e;
         this.value = 0;
@@ -226,13 +233,14 @@ export class IndicatorDetailsComponent implements OnInit, OnDestroy {
       description: this.description,
       howtomeasure: this.howtomeasure,
       benefit: this.benefit,
+      checked : this.indicator.checked,
       frequency: this.frequency,
       valueUnit: this.valueUnit,
       performance: this.performance,
       infoOwner: this.infoOwner,
       infoCollector: this.infoCollector,
       infoCustomer: this.infoCustomer,
-      checked: false,
+
       apps: this.apps
     }
     this.sub4 = this.indicatorService.editIndicator(indicator).subscribe((i) => {
@@ -248,6 +256,7 @@ export class IndicatorDetailsComponent implements OnInit, OnDestroy {
       this.benefit = i.benefit;
       this.frequency = i.frequency;
       this.valueUnit = i.valueUnit;
+
       this.performance = i.performance;
       this.infoOwner = i.infoOwner;
       this.infoCollector = i.infoCollector;

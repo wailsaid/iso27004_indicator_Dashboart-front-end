@@ -3,18 +3,15 @@
 
 
         <h5 class="m-0 font-weight-bold text-primary">List of Application Concerned with security indicators </h5>
-
-        <!-- Button trigger modal -->
         <button data-bs-toggle="modal" data-bs-target="#appForm" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                 class="fas fa-plus fa-sm text-white-50"></i> Add Application</button>
 
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" width="100%" cellspacing="0">
+            <table  class="table table-bordered" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                       <!--   <th>ID</th> -->
                         <th>Application Name</th>
                         <th></th>
                     </tr>
@@ -22,7 +19,6 @@
                 <tbody>
 
                         <tr *ngFor="let app of apps">
-                            <!-- <td>{{app.id}}</td> -->
                             <td>{{app.name}}</td>
 
                             <td>
