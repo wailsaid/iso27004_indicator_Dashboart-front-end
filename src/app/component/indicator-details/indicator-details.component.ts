@@ -4,7 +4,7 @@ import { Subject, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/service/Auth/auth.service';
 import { App, AppsService } from 'src/app/service/apps/apps.service';
 import { Evaluation, Indicator, IndicatorService } from 'src/app/service/indicator-Evaluation/indicator.service';
-import { User } from 'src/app/service/user/users.service';
+import { Collector, User, UsersService } from 'src/app/service/user/users.service';
 
 @Component({
   selector: 'app-indicator-details',
@@ -50,14 +50,13 @@ export class IndicatorDetailsComponent implements OnInit, OnDestroy {
   private sub6 !: Subscription;
   private sub7 !: Subscription;
   private sub8 !: Subscription;
+  private sub9 !: Subscription;
 
 
 
-  constructor(private route: ActivatedRoute, private appsevice: AppsService, public authservice: AuthService, private router: Router, private indicatorService: IndicatorService) {
-
-
-
-  }
+  constructor(private route: ActivatedRoute, private us: UsersService,
+     private appsevice: AppsService, public authservice: AuthService,
+     private router: Router, private indicatorService: IndicatorService) { }
   listapp: App[] = [];
   /* ngAfterViewInit(): void {
     this.sub8 = this.appsevice.getApps().subscribe((apps) => this.listapp = apps);
@@ -73,6 +72,7 @@ export class IndicatorDetailsComponent implements OnInit, OnDestroy {
     this.sub6?.unsubscribe()
     this.sub7?.unsubscribe()
     this.sub8?.unsubscribe()
+    this.sub9?.unsubscribe()
 
   }
   ngOnInit(): void {
@@ -102,6 +102,13 @@ export class IndicatorDetailsComponent implements OnInit, OnDestroy {
 
         this.getLastEvaluation(parseInt(idParam));
 
+        var uString = localStorage.getItem("user");
+        if (uString) {
+          var collector: User = JSON.parse(uString)
+          this.sub8 = this.us.getCollectors().subscribe(c => {
+            this.resp = c.filter(v => v.collector.id === collector.id)[0];
+          })}
+
       });
 
     } else {
@@ -116,7 +123,7 @@ export class IndicatorDetailsComponent implements OnInit, OnDestroy {
 
     });
   }
-
+  resp !: Collector;
 
   deleteIndicator() {
     this.sub3 = this.indicatorService.deleteIndicator(this.indicator).subscribe(() => {
@@ -124,26 +131,35 @@ export class IndicatorDetailsComponent implements OnInit, OnDestroy {
       this.router.navigate(['indicator']);
     });
   }
+  isResponsible() {
+    if (this.resp){
+      const iid = this.resp.indicator.map(i => i.id);
+      if (iid.indexOf(this.indicator.id) !== -1) {
+        return true;
+      }
+    }
+    return false;
+  }
 
 
   value: number = 0;
-
   evaluate() {
     var uString = localStorage.getItem("user");
-    if(uString){
-      var collector:User = JSON.parse(uString)
+    if (uString) {
+      var collector: User = JSON.parse(uString)
       const evaluate: Evaluation = {
         value: this.value,
         evaluationDate: new Date,
         indicator: this.indicator,
-        resp : {
-        id : collector.id,
-          username:collector.username,
-          email:collector.email,
-          role:collector.role,
-          password : collector.password
+        resp: {
+          id: collector.id,
+          username: collector.username,
+          email: collector.email,
+          role: collector.role,
+          password: collector.password
 
-              }      }
+        }
+      }
       this.sub7 = this.indicatorService.Evaluate(evaluate).subscribe((e) => {
         this.LatestEvaluation = e;
         this.value = 0;
@@ -164,11 +180,12 @@ export class IndicatorDetailsComponent implements OnInit, OnDestroy {
 
   }
   loadData() {
-   if(this.authservice.isAdmin())
-   { this.sub8 = this.appsevice.getApps().subscribe((apps) => {
-      this.listapp = apps;
-      //console.log(this.listapp);
-    });}
+    if (this.authservice.isAdmin()) {
+      this.sub8 = this.appsevice.getApps().subscribe((apps) => {
+        this.listapp = apps;
+        //console.log(this.listapp);
+      });
+    }
     //console.log(this.apps);
 
 
@@ -212,7 +229,6 @@ export class IndicatorDetailsComponent implements OnInit, OnDestroy {
         trigger: 'axis',
         formatter: '{b}: {c}', // Display the date (b) and value (c) in the tooltip
         axisPointer: {
-
         }
       },
 
@@ -233,7 +249,7 @@ export class IndicatorDetailsComponent implements OnInit, OnDestroy {
       description: this.description,
       howtomeasure: this.howtomeasure,
       benefit: this.benefit,
-      checked : this.indicator.checked,
+      checked: this.indicator.checked,
       frequency: this.frequency,
       valueUnit: this.valueUnit,
       performance: this.performance,
@@ -282,17 +298,17 @@ export class IndicatorDetailsComponent implements OnInit, OnDestroy {
         return "#5e8000b5";
     }
   }
-/*   addApp(a: App) {
-    let index = this.apps.indexOf(a);
-    if (index === -1) {
-      this.apps.push(a);
+  /*   addApp(a: App) {
+      let index = this.apps.indexOf(a);
+      if (index === -1) {
+        this.apps.push(a);
+        console.log(this.apps);
+        return;
+      }
+      delete this.apps[index];
       console.log(this.apps);
-      return;
-    }
-    delete this.apps[index];
-    console.log(this.apps);
-  } */
-  onChange($event: any,object:any) {
+    } */
+  onChange($event: any, object: any) {
     var id = $event.target.value;
     var name = $event.target.name;
     var isChecked = $event.target.checked;
@@ -303,11 +319,11 @@ export class IndicatorDetailsComponent implements OnInit, OnDestroy {
     console.log(isChecked);
 
 
-     if (isChecked === true) {
+    if (isChecked === true) {
       this.apps.push(item);
-    }else{
+    } else {
 
-      this.apps = this.apps.filter(a=> a.id !== item.id);
+      this.apps = this.apps.filter(a => a.id !== item.id);
       //console.log(s);
 
     }

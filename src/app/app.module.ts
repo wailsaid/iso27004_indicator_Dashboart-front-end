@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 
 
 
+import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -16,7 +17,9 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatStepperModule } from '@angular/material/stepper';
 import { MatTableModule } from '@angular/material/table';
+
 
 
 import { AppsComponent } from './component/apps/apps.component';
@@ -34,6 +37,8 @@ import { DepartementComponent } from './component/departement/departement.compon
 import { HomeComponent } from './component/home/home.component';
 import LoginComponent from './component/login/login.component';
 import { AuthInterceptor, ErrorInterceptor } from './gaurd/auth.guard';
+import { DepDetailComponent } from './component/dep-detail/dep-detail.component';
+import { CollectionComponent } from './component/collection/collection.component';
 
 /* const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
@@ -57,6 +62,8 @@ import { AuthInterceptor, ErrorInterceptor } from './gaurd/auth.guard';
     LoginComponent,
     HomeComponent,
     DepartementComponent,
+    DepDetailComponent,
+    CollectionComponent,
 
 
   ],
@@ -76,12 +83,17 @@ import { AuthInterceptor, ErrorInterceptor } from './gaurd/auth.guard';
     HttpClientModule,
     DataTablesModule,
     MatSnackBarModule,
-
+    MatButtonModule,
+    MatStepperModule,
     NgxEchartsModule.forRoot({
       echarts
     }),
 
   //  RouterModule.forRoot(routes),
+
+  ],exports:[
+    MatButtonModule,
+    MatStepperModule
 
   ],
   providers: [

@@ -48,6 +48,20 @@ export class UserComponent implements OnInit, OnDestroy {
     }
 
     this.sub3 = this.userService.createUser(nuser).subscribe((u) => {
+      if (u.role === 'COLLECTOR') {
+        this.userService.setCollector(
+          {
+            collector: {
+              id: u.id,
+              username: u.username,
+              password: u.password,
+              role: u.role,
+              email: u.email
+            },
+            indicator: []
+          }
+        ).subscribe();
+      }
       this.users.push(u);
       this.username = "";
       this.email = "";

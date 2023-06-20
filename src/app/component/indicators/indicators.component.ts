@@ -1,8 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { App, AppsService } from 'src/app/service/apps/apps.service';
 import { AuthService } from 'src/app/service/Auth/auth.service';
+import { App, AppsService } from 'src/app/service/apps/apps.service';
+import { Departement, DepartementService } from 'src/app/service/depart/departement.service';
 import { Evaluation, Indicator, IndicatorService } from 'src/app/service/indicator-Evaluation/indicator.service';
+import { Collector, User, UsersService } from 'src/app/service/user/users.service';
 
 
 @Component({
@@ -13,20 +15,6 @@ import { Evaluation, Indicator, IndicatorService } from 'src/app/service/indicat
 
 })
 export class IndicatorComponent implements OnInit, OnDestroy {
-
-
-  active = 1;
-  active2 = 1;
-
-  handleNextPrevClick(stepper: number, a: number) {
-    if (stepper === 1) {
-      this.active = a;
-    } else if (stepper === 2) {
-      this.active2 = a;
-    }
-  }
-
-
 
 
 
@@ -52,6 +40,11 @@ export class IndicatorComponent implements OnInit, OnDestroy {
   infoCustomer: string = "";
   apps: App[] = [];
 
+  hasrep: boolean = false;
+
+
+  allDep: Departement[] = [];
+  allCollector: Collector[] = [];
 
   //displayedColumns: string[] = ['id', 'name', 'category', 'type', 'acceptableValue', 'action'];
 
@@ -61,27 +54,44 @@ export class IndicatorComponent implements OnInit, OnDestroy {
 
 
 
-  constructor(private indicatorService: IndicatorService, private appsevice: AppsService, public authservice: AuthService) {
+  constructor(private indicatorService: IndicatorService, private appsevice: AppsService, private usersevice: UsersService, private ds: DepartementService, public authservice: AuthService) {
 
   }
   private sub1 !: Subscription;
   private sub2 !: Subscription;
   private sub3 !: Subscription;
   private sub4 !: Subscription;
-
-
+  private sub5 !: Subscription;
+  private sub6 !: Subscription;
+setR(){
+  this.hasrep = true;
+}
   ngOnDestroy(): void {
     this.sub1?.unsubscribe();
     this.sub2?.unsubscribe();
     this.sub3?.unsubscribe();
     this.sub4?.unsubscribe();
+    this.sub5?.unsubscribe();
+    this.sub6?.unsubscribe();
   }
   ngOnInit(): void {
     this.sub1 = this.indicatorService.getAllEvalautions().subscribe(data => {
       this.evals = data;
-      this.sub2 = this.indicatorService.getRIndicator().subscribe(data => {this.indicators = data
+      this.sub2 = this.indicatorService.getRIndicator().subscribe(data => {
+        this.indicators = data
       });
     });
+    let u = localStorage.getItem('user');
+    if (u) {
+      var user: User = JSON.parse(u);
+      if (user.role === 'ADMIN') {
+
+        this.sub5 = this.ds.getDeps().subscribe(data => this.allDep = data);
+        this.sub6 = this.usersevice.getCollectors().subscribe(data => this.allCollector = data);
+      }
+
+    }
+
   }
 
 
@@ -101,16 +111,35 @@ export class IndicatorComponent implements OnInit, OnDestroy {
       return;
     }
     delete this.apps[index];
-   // console.log(this.apps);
+
+    this.apps = this.apps.filter(a => a !== null);
+    // console.log(this.apps);
   }
 
+  selectedDep: Departement[] = [];
+  addDep(d: Departement) {
+    let i = this.selectedDep.indexOf(d);
+    if (i === -1) {
+      this.selectedDep.push(d);
+      return;
+    }
+    delete this.selectedDep[i];
+    this.selectedDep = this.selectedDep.filter(a => a !== null)
+  }
+
+  resp !: Collector;
+  setEvaluator(u: Collector) {
+    this.resp = u;
+    this.hasrep = true
+
+  }
 
   /*
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
-      if (this.dataSource.paginator) {
+    if (this.dataSource.paginator) {
         this.dataSource.paginator.firstPage();
       }
     } */
@@ -138,6 +167,19 @@ export class IndicatorComponent implements OnInit, OnDestroy {
     }
     this.indicatorService.addIndicator(indicator).subscribe((i) => {
       this.indicators.push(i)
+      this.selectedDep.forEach(d => {
+        d.indicators?.push(i);
+        this.ds.addDep(d).subscribe();
+      });
+      this.resp.indicator.push(i);
+      this.resp.collector = {
+        id: this.resp.collector.id,
+        username: this.resp.collector.username,
+        password: this.resp.collector.password,
+        email: this.resp.collector.email,
+        role: this.resp.collector.role
+      }
+      this.usersevice.setCollector(this.resp).subscribe();
 
 
       this.name = "";

@@ -1,0 +1,54 @@
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
+
+
+        <h5 class="m-0 font-weight-bold text-primary">List of Cybersecurity indicators</h5>
+
+
+
+
+
+    </div>
+    <div class="card-body">
+
+        <ng-container>
+
+        </ng-container>
+        <div class="table-responsive">
+            <table class="table table-bordered" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+
+                        <th>Name</th>
+
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let e of resp?.indicator">
+                        <td>
+                            {{e.name}}
+                        </td>
+
+
+
+
+                        <td>
+                            <a routerLink="/indicator/{{e.id}}" class="btn btn-info btn-sm btn-icon-split">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-list"></i>
+                                </span>
+                                <span class="text">Detail</span>
+                            </a>
+
+
+
+                        </td>
+                    </tr>
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

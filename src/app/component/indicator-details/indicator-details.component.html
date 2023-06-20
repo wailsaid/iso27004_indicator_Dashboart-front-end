@@ -7,15 +7,15 @@
 
 
         <div >
-            <button *ngIf="authservice.isCollector()" type="button" class="btn btn-primary btn-sm btn-icon-split"
+            <button *ngIf="isResponsible()" type="button" class="btn btn-primary btn-sm btn-icon-split"
                 data-bs-toggle="modal" [attr.data-bs-target]="'#EvaluationModal'+indicator.id">
-                <span class="icon text-white-50">
+                <span class="icon text-white-50">o
                     <i class="fas fa-check"></i>
                 </span>
                 <span class="text">Evaluate</span>
             </button>
 
-            <div *ngIf="authservice.isCollector()" class="modal fade" id="EvaluationModal{{indicator.id}}" tabindex="-1"
+            <div *ngIf="isResponsible()" class="modal fade" id="EvaluationModal{{indicator.id}}" tabindex="-1"
                 aria-labelledby="EvaluationModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -240,12 +240,6 @@
                             {{LatestEvaluation!.evaluationDate.toString().substr(0,10)}}</h6>
                         <h6><strong>Next Evaluation Date:</strong>
                             {{LatestEvaluation.nextEvaluationDate!.toString().substr(0,10)}} </h6>
-
-
-
-
-
-
                     </div>
 
                 </div>

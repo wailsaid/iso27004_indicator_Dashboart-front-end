@@ -1,0 +1,56 @@
+<ng-container *ngIf="!!department">
+
+
+
+    <div class="card shadow mb-4 ">
+
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">{{department.name}}</h6>
+        </div>
+        <div class="card-body row">
+
+            <ul class="col-md-6" style="padding: 2rem;">
+                <li style="list-style: none;">
+                    <div class="d-flex justify-content-between">
+                        <strong> List of Indicators </strong>
+                        <strong> Value </strong>
+                    </div>
+                </li>
+                <li *ngFor="let a of evaluation.entries()">
+                    <div class="d-flex justify-content-between">
+                        <span>
+                            {{a[0]}}
+                        </span>
+                        <strong [style.color]="getColor(a[0],a[1])">
+                            {{a[1]}}
+                        </strong>
+                    </div>
+                </li>
+                <li *ngFor="let a of ileft()">
+                    <div class="d-flex justify-content-between">
+                        <span>
+                            {{a.name}}
+                        </span>
+                        <strong>
+                            n/a
+                        </strong>
+                    </div>
+
+                </li>
+
+            </ul>
+
+            <div class="col-md-6">
+
+
+                <div echarts [options]="chartOptions"></div>
+
+            </div>
+
+            <div class="col-md-6">
+            </div>
+
+        </div>
+
+    </div>
+</ng-container>
