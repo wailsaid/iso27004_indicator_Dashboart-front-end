@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/service/Auth/auth.service';
 import { App, AppsService } from 'src/app/service/apps/apps.service';
+import { Departement, DepartementService } from 'src/app/service/depart/departement.service';
 import { Evaluation, Indicator, IndicatorService } from 'src/app/service/indicator-Evaluation/indicator.service';
 import { Collector, User, UsersService } from 'src/app/service/user/users.service';
 
@@ -51,13 +52,18 @@ export class IndicatorDetailsComponent implements OnInit, OnDestroy {
   private sub7 !: Subscription;
   private sub8 !: Subscription;
   private sub9 !: Subscription;
+  private sub10 !: Subscription;
+  private sub11 !: Subscription;
 
 
 
   constructor(private route: ActivatedRoute, private us: UsersService,
-     private appsevice: AppsService, public authservice: AuthService,
-     private router: Router, private indicatorService: IndicatorService) { }
+    private appsevice: AppsService, public authservice: AuthService,
+    private router: Router, private indicatorService: IndicatorService,
+    private departementService: DepartementService) { }
   listapp: App[] = [];
+  allDeps: Departement[] = [];
+  allCollector : Collector[] = [];
   /* ngAfterViewInit(): void {
     this.sub8 = this.appsevice.getApps().subscribe((apps) => this.listapp = apps);
 
@@ -73,6 +79,8 @@ export class IndicatorDetailsComponent implements OnInit, OnDestroy {
     this.sub7?.unsubscribe()
     this.sub8?.unsubscribe()
     this.sub9?.unsubscribe()
+    this.sub10?.unsubscribe()
+    this.sub11?.unsubscribe()
 
   }
   ngOnInit(): void {
@@ -101,13 +109,18 @@ export class IndicatorDetailsComponent implements OnInit, OnDestroy {
 
 
         this.getLastEvaluation(parseInt(idParam));
+        this.sub10 = this.departementService.getDeps().subscribe(d => {
+          this.allDeps = d
+        });
+        this.sub11 = this.us.getCollectors().subscribe(d=>this.allCollector = d);
 
         var uString = localStorage.getItem("user");
         if (uString) {
           var collector: User = JSON.parse(uString)
           this.sub8 = this.us.getCollectors().subscribe(c => {
             this.resp = c.filter(v => v.collector.id === collector.id)[0];
-          })}
+          })
+        }
 
       });
 
@@ -132,7 +145,7 @@ export class IndicatorDetailsComponent implements OnInit, OnDestroy {
     });
   }
   isResponsible() {
-    if (this.resp){
+    if (this.resp) {
       const iid = this.resp.indicator.map(i => i.id);
       if (iid.indexOf(this.indicator.id) !== -1) {
         return true;
@@ -316,7 +329,7 @@ export class IndicatorDetailsComponent implements OnInit, OnDestroy {
       id: parseInt(id),
       name: name
     };
-    console.log(isChecked);
+    //console.log(isChecked);
 
 
     if (isChecked === true) {
@@ -331,7 +344,68 @@ export class IndicatorDetailsComponent implements OnInit, OnDestroy {
 
   }
 
+  onDChange($event: any, object: any) {
+    var id = $event.target.value;
+    var name = $event.target.name;
+    var isChecked = $event.target.checked;
+    var item = {
+      id: parseInt(id),
+      name: name
+    };
+    //console.log(isChecked);
+
+
+    if (isChecked === true) {
+      (object as Departement).indicators?.push(this.indicator);
+      this.departementService.addDep(object as Departement).subscribe();
+      //this.allDeps.push(item);
+      //console.log(1);
+    } else {
+      (object as Departement).indicators  = (object as Departement).indicators?.filter(a => a.id !== this.indicator.id)
+      this.departementService.addDep(object as Departement).subscribe();
+      //this.allDeps = this.allDeps.filter(a => a.id !== item.id);
+      //console.log(1);
+
+    }
+   // console.log(this.allDeps);
+
+  }
+
   isChecked(id?: number): boolean {
     return this.apps.some((x) => x.id === id);
+  }
+
+  isDChecked(id?: number): boolean | undefined {
+    var d :Departement = this.allDeps.filter((x) => x.id === id)[0]
+    return d.indicators?.some(x=>x.id === this.indicator.id);
+  }
+
+  isCChecked(id?: number): boolean | undefined {
+    var d :Collector = this.allCollector.filter((x) => x.id === id)[0]
+    return d.indicator?.some(x=>x.id === this.indicator.id);
+  }
+
+
+  setEvaluator(c: Collector) {
+  var isChecked = this.isCChecked(c.id);
+  c.collector={
+    id : c.collector.id,
+    username : c.collector.username,
+     email : c.collector.email,
+     password : c.collector.password,
+     role : c.collector.role,
+  }
+    if (isChecked !== true) {
+      c.indicator?.push(this.indicator);
+      this.us.setCollector(c).subscribe();
+      //this.allDeps.push(item);
+      //console.log(1);
+    } else {
+     c.indicator  = c.indicator.filter(a => a.id !== this.indicator.id)
+      this.us.setCollector(c).subscribe();
+      //this.allDeps = this.allDeps.filter(a => a.id !== item.id);
+      //console.log(1);
+
+    }
   }
 }

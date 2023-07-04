@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/service/Auth/auth.service';
 import { Departement, DepartementService } from 'src/app/service/depart/departement.service';
 import { IndicatorService } from 'src/app/service/indicator-Evaluation/indicator.service';
@@ -9,13 +10,27 @@ import { IndicatorService } from 'src/app/service/indicator-Evaluation/indicator
   templateUrl: './dep-detail.component.html',
   styleUrls: ['./dep-detail.component.css']
 })
-export class DepDetailComponent implements OnInit {
+export class DepDetailComponent implements OnInit, OnDestroy {
+
+
+  private sub1 !: Subscription;
+
+
+  deleteDep(arg0: Departement) {
+    this.sub1 = this.depsevice.delDep(arg0).subscribe(_=>
+      this.router.navigate(['departement'])
+
+      );
+  }
 
 
   department !: Departement;
   evaluation: Map<string, number> = new Map<string, number>();
   redundant: string[] = [];
   constructor(private route: ActivatedRoute, private depsevice: DepartementService, public authservice: AuthService, private router: Router, private indicatorService: IndicatorService) { }
+  ngOnDestroy(): void {
+    this.sub1?.unsubscribe();
+  }
   ngOnInit(): void {
     const idParam = this.route.snapshot.paramMap.get('id');
     if (idParam) {
@@ -102,7 +117,7 @@ export class DepDetailComponent implements OnInit {
 
   chartOptions: any;
 
-  ileft(){
+  ileft() {
     var li = this.department.indicators?.filter(a => this.redundant.indexOf(a.name) === -1);
     return li;
   }

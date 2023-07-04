@@ -25,38 +25,38 @@
         <a class="nav-link" routerLink="departement">
             <i class="fas fa-fw fa-building"></i>
             <span>Departments</span></a>
-        </li>
+    </li>
     <ng-container *ngIf="authService.isCollector()">
 
-    <li class="nav-item">
-        <a class="nav-link" routerLink="evaliation-task">
-            <i class="fas fa-fw fa-tasks"></i>
-            <span>Evaliation Task</span></a>
+        <li class="nav-item">
+            <a class="nav-link" routerLink="evaliation-task">
+                <i class="fas fa-fw fa-tasks"></i>
+                <span>Evaliation Task</span></a>
         </li>
 
     </ng-container>
 
-<ng-container *ngIf="authService.isAdmin()">
+    <ng-container *ngIf="authService.isAdmin()">
 
-    <li class="nav-item">
-        <a class="nav-link" routerLink="apps">
-            <i class="fas fa-fw fa-bars"></i>
-            <span>Applications</span></a>
+        <li class="nav-item">
+            <a class="nav-link" routerLink="apps">
+                <i class="fas fa-fw fa-bars"></i>
+                <span>Applications</span></a>
         </li>
 
 
 
         <li class="nav-item">
             <a class="nav-link" routerLink="user">
-            <i class="fas fa-fw fa-users"></i>
-            <span>Users</span></a>
+                <i class="fas fa-fw fa-users"></i>
+                <span>Users</span></a>
         </li>
 
 
 
     </ng-container>
 
-        <hr class="sidebar-divider">
+    <hr class="sidebar-divider">
 
 
     <li class="nav-item">

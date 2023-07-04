@@ -62,7 +62,7 @@
                             </span>
                         </ng-template>
                         <td>
-                            {{e.nextEvaluationDate?.toString()?.substring(0,9)}}
+                            {{e.nextEvaluationDate?.toString()?.substring(0,10)}}
                         </td>
 
                         <td>
@@ -306,11 +306,11 @@
 
                                             <div *ngFor="let app of listapp">
 
-                                                <input name="apps" type="checkbox" (click)="addApp(app)"
-                                                    value="{{app.id}}">
-                                                <span>
-                                                    {{app.name}}
-                                                </span>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="{{app.id}}"  (click)="addApp(app)" name="deps" value="{{app.id}}">
+                                                    <label class="form-check-label" for="{{app.id}}">  {{app.name}} </label>
+                                                  </div>
+
 
 
                                             </div>
@@ -363,8 +363,6 @@
 
 
                                         </div>
-{{hasrep}}
-
 
                                 </div>
                                 <div class=" col-md-4">

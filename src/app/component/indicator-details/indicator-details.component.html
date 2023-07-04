@@ -6,7 +6,7 @@
 
 
 
-        <div >
+        <div>
             <button *ngIf="isResponsible()" type="button" class="btn btn-primary btn-sm btn-icon-split"
                 data-bs-toggle="modal" [attr.data-bs-target]="'#EvaluationModal'+indicator.id">
                 <span class="icon text-white-50">o
@@ -275,12 +275,12 @@
                 <div class="card-body">
                     <div class="mb-5">
 
-                        <div echarts  [options]="chartOptions" [loading]="loading"></div>
+                        <div echarts [options]="chartOptions" [loading]="loading"></div>
                     </div>
 
 
                     <div class="table-responsive">
-                        <table class="table table-bordered"  width="100%" cellspacing="0">
+                        <table class="table table-bordered" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th>Evaluation Date</th>
@@ -339,167 +339,232 @@
             </div>
             <div class="modal-body">
                 <form id="addIndicator" (ngSubmit)="edit()" #myForm="ngForm">
-                    <div class="row">
-                        <div class="col-md-6">
 
-                            <div class="form-group form-floating">
-
-                                <input type="text" class="form-control" placeholder="" name="name" [(ngModel)]="name"
-                                    id="name" required>
-                                <label for="name">Indicator's name</label>
-
-                            </div>
+                    <mat-horizontal-stepper>
 
 
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group form-floating">
-
-                                        <input type="text" class="form-control" placeholder="" name="type"
-                                            [(ngModel)]="type" id="type" required>
-                                        <label for="type">Type</label>
-
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group form-floating">
-
-                                        <input list="catid" type="text" class="form-control" placeholder=""
-                                            name="category" [(ngModel)]="category" id="category" required>
-                                        <label for="category">Category</label>
-
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="form-group form-floating">
-
-                                <input type="text" class="form-control" placeholder="" name="benefit"
-                                    [(ngModel)]="benefit" id="benefits" required>
-                                <label for="benefits">Benefits</label>
-
-                            </div>
 
 
-                            <div class="form-group form-floating">
-
-                                <textarea maxlength="1000" class="form-control" placeholder="" name="description"
-                                    [(ngModel)]="description" id="description" required rows="5" cols="10"></textarea>
-                                <label for="description">Description</label>
-
-                            </div>
-
-                            <div class="form-group form-floating">
-
-                                <textarea maxlength="1000" class="form-control" placeholder="" name="howtomeasure"
-                                    [(ngModel)]="howtomeasure" id="measure" required rows="5" cols="10"></textarea>
-                                <label for="measure">How to measure</label>
-
-                            </div>
-
-
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group form-floating">
-
-                                <select id="frenquency" class="form-select" name="frequency" [(ngModel)]="frequency">
-                                    <option value="monthly">Monthly</option>
-                                    <option value="quarterly">Quarterly</option>
-                                    <option value="annually">Annually</option>
-                                </select>
-                                <label for="frenquency">Frequency</label>
-                            </div>
-
+                        <mat-step label="Indicator Details">
                             <div class="row">
                                 <div class="col-md-6">
 
                                     <div class="form-group form-floating">
 
-                                        <input min="0" type="number" class="form-control" placeholder="" name="target"
-                                            [(ngModel)]="targetValue" id="target" required>
-                                        <label for="target">Target value</label>
+                                        <input type="text" class="form-control" placeholder="" name="name"
+                                            [(ngModel)]="name" id="name" required>
+                                        <label for="name">Indicator's name</label>
+
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group form-floating">
+
+                                                <input type="text" class="form-control" placeholder="" name="type"
+                                                    [(ngModel)]="type" id="type" required>
+                                                <label for="type">Type</label>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group form-floating">
+
+                                                <input list="catid" type="text" class="form-control" placeholder=""
+                                                    name="category" [(ngModel)]="category" id="category" required>
+                                                <label for="category">Category</label>
+
+                                            </div>
+                                        </div>
 
                                     </div>
                                     <div class="form-group form-floating">
 
-                                        <input min="0" type="number" class="form-control" placeholder="" name="accept"
-                                            [(ngModel)]="acceptableValue" id="accept" required>
-                                        <label for="accept">Acceptable value</label>
+                                        <input type="text" class="form-control" placeholder="" name="benefit"
+                                            [(ngModel)]="benefit" id="benefits" required>
+                                        <label for="benefits">Benefits</label>
 
                                     </div>
 
+
+                                    <div class="form-group form-floating">
+
+                                        <textarea maxlength="1000" class="form-control" placeholder=""
+                                            name="description" [(ngModel)]="description" id="description" required
+                                            rows="5" cols="10"></textarea>
+                                        <label for="description">Description</label>
+
+                                    </div>
+
+                                    <div class="form-group form-floating">
+
+                                        <textarea maxlength="1000" class="form-control" placeholder=""
+                                            name="howtomeasure" [(ngModel)]="howtomeasure" id="measure" required
+                                            rows="5" cols="10"></textarea>
+                                        <label for="measure">How to measure</label>
+
+                                    </div>
+
+
                                 </div>
+
                                 <div class="col-md-6">
-
-
-
                                     <div class="form-group form-floating">
-                                        <select id="perf" class="form-select" name="peformence"
-                                            [(ngModel)]="performance">
-                                            <option value="asc">&#8593; Increment</option>
-                                            <option value="desc">&#8595; Decrement</option>
 
+                                        <select id="frenquency" class="form-select" name="frequency"
+                                            [(ngModel)]="frequency">
+                                            <option value="monthly">Monthly</option>
+                                            <option value="quarterly">Quarterly</option>
+                                            <option value="annually">Annually</option>
                                         </select>
-                                        <label for="perf">Performance Indicator</label>
+                                        <label for="frenquency">Frequency</label>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+
+                                            <div class="form-group form-floating">
+
+                                                <input min="0" type="number" class="form-control" placeholder=""
+                                                    name="target" [(ngModel)]="targetValue" id="target" required>
+                                                <label for="target">Target value</label>
+
+                                            </div>
+                                            <div class="form-group form-floating">
+
+                                                <input min="0" type="number" class="form-control" placeholder=""
+                                                    name="accept" [(ngModel)]="acceptableValue" id="accept" required>
+                                                <label for="accept">Acceptable value</label>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-6">
+
+
+
+                                            <div class="form-group form-floating">
+                                                <select id="perf" class="form-select" name="peformence"
+                                                    [(ngModel)]="performance">
+                                                    <option value="asc">&#8593; Increment</option>
+                                                    <option value="desc">&#8595; Decrement</option>
+
+                                                </select>
+                                                <label for="perf">Performance Indicator</label>
+                                            </div>
+
+
+
+                                            <div class="form-group form-floating">
+                                                <select id="unit" class="form-select" name="valueUnit"
+                                                    [(ngModel)]="valueUnit">
+                                                    <option value="%">percentage </option>
+                                                    <option value="nomber">Number</option>
+                                                </select>
+                                                <label for="unit">Indicator Unit</label>
+                                            </div>
+
+
+
+                                        </div>
                                     </div>
 
 
 
+
                                     <div class="form-group form-floating">
-                                        <select id="unit" class="form-select" name="valueUnit" [(ngModel)]="valueUnit">
-                                            <option value="%">percentage </option>
-                                            <option value="nomber">Number</option>
-                                        </select>
-                                        <label for="unit">Indicator Unit</label>
+
+                                        <input type="text" class="form-control" placeholder="" name="infoOwner"
+                                            [(ngModel)]="infoOwner" id="infoOwnwer" required>
+                                        <label for="infoOwnwer">Information Owner</label>
+
+                                    </div>
+                                    <div class="form-group form-floating">
+
+                                        <input type="text" class="form-control" placeholder="" name="infoCollector"
+                                            [(ngModel)]="infoCollector" id="infoCollector" required>
+                                        <label for="infoCollector">Information Collector</label>
+
+                                    </div>
+                                    <div class="form-group form-floating">
+
+                                        <input type="text" class="form-control" placeholder="" name="infoCustomer"
+                                            [(ngModel)]="infoCustomer" id="infoCustomer" required>
+                                        <label for="infoCustomer">Information Customer</label>
+
                                     </div>
 
+                                    <!--  <div class="applist">
 
+                                        <div *ngFor="let app of listapp ">
+                                            <input type="checkbox" [id]="app.id" [value]="app.id" [name]="app.name"
+                                                [checked]="isChecked(app.id)" (click)="onChange($event,app.name)" />
+                                            <label [for]="app.id"> {{ app.name }}</label>
+
+
+                                        </div>
+                                    </div> -->
+                                    <button style="float: right;" type="button" mat-button matStepperNext>Next</button>
+                                </div>
+                            </div>
+                        </mat-step>
+                        <mat-step label="Related Entities">
+
+                            <div class="row stp2">
+
+                                <div class="col-md-4">
+                                    <h5>Applications concerned with this Indicator</h5>
+                                    <div class="card-body">
+                                        <div class="">
+                                            <div class="form-check" *ngFor="let app of listapp ">
+                                                <input class="form-check-input"  type="checkbox" [id]="app.id" [value]="app.id" [name]="app.name"
+                                                    [checked]="isChecked(app.id)" (click)="onChange($event,app.name)" />
+                                                <label class="form-check-label" [for]="app.id"> {{ app.name }}</label>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="deplist">
+                                        <h5>Departments concerned with this Indicator</h5>
+                                        <div class="card-body">
+                                            <div class="">
+                                                <div class="form-check" *ngFor="let d of allDeps ">
+                                                    <input class="form-check-input"  type="checkbox" [id]="d.id" [value]="d.id" [name]="d.name"
+                                                        [checked]="isDChecked(d.id)" (click)="onDChange($event,d)" />
+                                                    <label class="form-check-label" [for]="d.id"> {{ d.name }}</label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <h5>Collector responsable for this Indicator</h5>
+
+
+
+                                        <div *ngFor="let r of allCollector">
+                                            <div class="form-check">
+                                                <input type="radio" class="form-check-input" (click)="setEvaluator(r)" id="{{r.id}}" [checked]="isCChecked(r.id)" name="optradio" value="{{r.id}}" required>
+                                                <label class="form-check-label" for="{{r.id}}">  {{r.collector.username}}</label>
+                                              </div>
+
+                                           <!--  <input name="apps"  type="radio" (click)="setEvaluator(r)" value="{{r.id}}"  required>
+                                            <span>
+                                                {{r.username}}
+                                            </span> -->
+
+
+                                        </div>
 
                                 </div>
                             </div>
-
-
-
-
-                            <div class="form-group form-floating">
-
-                                <input type="text" class="form-control" placeholder="" name="infoOwner"
-                                    [(ngModel)]="infoOwner" id="infoOwnwer" required>
-                                <label for="infoOwnwer">Information Owner</label>
-
-                            </div>
-                            <div class="form-group form-floating">
-
-                                <input type="text" class="form-control" placeholder="" name="infoCollector"
-                                    [(ngModel)]="infoCollector" id="infoCollector" required>
-                                <label for="infoCollector">Information Collector</label>
-
-                            </div>
-                            <div class="form-group form-floating">
-
-                                <input type="text" class="form-control" placeholder="" name="infoCustomer"
-                                    [(ngModel)]="infoCustomer" id="infoCustomer" required>
-                                <label for="infoCustomer">Information Customer</label>
-
-                            </div>
-
-                            <div class="applist">
-
-                                <div *ngFor="let app of listapp ">
-                                    <input type="checkbox"
-                                    [id]="app.id"
-                                    [value]="app.id"
-                                    [name]="app.name"
-                                    [checked]="isChecked(app.id)"
-                                    (click)="onChange($event,app.name)" />
-                                    <label [for]="app.id"> {{ app.name }}</label>
-
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        </mat-step>
+                    </mat-horizontal-stepper>
                 </form>
             </div>
             <div class="modal-footer">

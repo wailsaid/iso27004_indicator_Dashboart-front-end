@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/service/Auth/auth.service';
 import { Departement, DepartementService } from 'src/app/service/depart/departement.service';
 import { IndicatorService } from 'src/app/service/indicator-Evaluation/indicator.service';
 
@@ -17,7 +18,7 @@ export class DepartementComponent implements OnInit, OnDestroy {
   sub3!: Subscription;
 
   allDeps: Departement[] = []
-  constructor(private departementService: DepartementService, private evaluService: IndicatorService) { }
+  constructor(private departementService: DepartementService, private evaluService: IndicatorService,public auths : AuthService) { }
   ngOnDestroy(): void {
     this.sub1?.unsubscribe();
     this.sub2?.unsubscribe();
