@@ -63,7 +63,7 @@ export class IndicatorDetailsComponent implements OnInit, OnDestroy {
     private departementService: DepartementService) { }
   listapp: App[] = [];
   allDeps: Departement[] = [];
-  allCollector : Collector[] = [];
+  allCollector: Collector[] = [];
   /* ngAfterViewInit(): void {
     this.sub8 = this.appsevice.getApps().subscribe((apps) => this.listapp = apps);
 
@@ -112,7 +112,7 @@ export class IndicatorDetailsComponent implements OnInit, OnDestroy {
         this.sub10 = this.departementService.getDeps().subscribe(d => {
           this.allDeps = d
         });
-        this.sub11 = this.us.getCollectors().subscribe(d=>this.allCollector = d);
+        this.sub11 = this.us.getCollectors().subscribe(d => this.allCollector = d);
 
         var uString = localStorage.getItem("user");
         if (uString) {
@@ -361,13 +361,13 @@ export class IndicatorDetailsComponent implements OnInit, OnDestroy {
       //this.allDeps.push(item);
       //console.log(1);
     } else {
-      (object as Departement).indicators  = (object as Departement).indicators?.filter(a => a.id !== this.indicator.id)
+      (object as Departement).indicators = (object as Departement).indicators?.filter(a => a.id !== this.indicator.id)
       this.departementService.addDep(object as Departement).subscribe();
       //this.allDeps = this.allDeps.filter(a => a.id !== item.id);
       //console.log(1);
 
     }
-   // console.log(this.allDeps);
+    // console.log(this.allDeps);
 
   }
 
@@ -376,35 +376,34 @@ export class IndicatorDetailsComponent implements OnInit, OnDestroy {
   }
 
   isDChecked(id?: number): boolean | undefined {
-    var d :Departement = this.allDeps.filter((x) => x.id === id)[0]
-    return d.indicators?.some(x=>x.id === this.indicator.id);
+    var d: Departement = this.allDeps.filter((x) => x.id === id)[0]
+    return d.indicators?.some(x => x.id === this.indicator.id);
   }
 
   isCChecked(id?: number): boolean | undefined {
-    var d :Collector = this.allCollector.filter((x) => x.id === id)[0]
-    return d.indicator?.some(x=>x.id === this.indicator.id);
+    var d: Collector = this.allCollector.filter((x) => x.id === id)[0]
+    return d.indicator?.some(x => x.id === this.indicator.id);
   }
 
 
   setEvaluator(c: Collector) {
-  var isChecked = this.isCChecked(c.id);
-  c.collector={
-    id : c.collector.id,
-    username : c.collector.username,
-     email : c.collector.email,
-     password : c.collector.password,
-     role : c.collector.role,
-  }
-    if (isChecked !== true) {
+    var isChecked = this.isCChecked(c.id);
+    c.collector = {
+      id: c.collector.id,
+      username: c.collector.username,
+      email: c.collector.email,
+      password: c.collector.password,
+      role: c.collector.role,
+    }
+    if (isChecked !== true) { 
+    
       c.indicator?.push(this.indicator);
-      this.us.setCollector(c).subscribe();
-      //this.allDeps.push(item);
-      //console.log(1);
+      this.us.updateCollector(c).subscribe();
+
     } else {
-     c.indicator  = c.indicator.filter(a => a.id !== this.indicator.id)
-      this.us.setCollector(c).subscribe();
-      //this.allDeps = this.allDeps.filter(a => a.id !== item.id);
-      //console.log(1);
+      c.indicator = c.indicator.filter(a => a.id !== this.indicator.id)
+      this.us.updateCollector(c).subscribe();
+
 
     }
   }

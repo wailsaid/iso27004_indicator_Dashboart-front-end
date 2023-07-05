@@ -549,7 +549,7 @@
 
                                         <div *ngFor="let r of allCollector">
                                             <div class="form-check">
-                                                <input type="radio" class="form-check-input" (click)="setEvaluator(r)" id="{{r.id}}" [checked]="isCChecked(r.id)" name="optradio" value="{{r.id}}" required>
+                                                <input type="checkbox" class="form-check-input" (click)="setEvaluator(r)" id="{{r.id}}" [checked]="isCChecked(r.id)" name="optradio" value="{{r.id}}" required>
                                                 <label class="form-check-label" for="{{r.id}}">  {{r.collector.username}}</label>
                                               </div>
 

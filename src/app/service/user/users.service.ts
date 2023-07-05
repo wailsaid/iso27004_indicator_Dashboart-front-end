@@ -14,13 +14,20 @@ export class UsersService {
 
   getUsers(): Observable<User[]> {
 
-      return this.http.get<User[]>(this.url).pipe(share());
-
+    return this.http.get<User[]>(this.url).pipe(share());
   }
+
+  RestUserP(id:number | undefined,np : string) {
+    return this.http.put<User>(`${this.url}/reset/${id}`,np).pipe(share());
+  }
+
+
   setCollector(c: Collector){
     return this.http.post(`${this.url}/collector`,c).pipe(share());
   }
-
+ updateCollector(c: Collector){
+    return this.http.put(`${this.url}/collector`,c).pipe(share());
+  }
   getCollectors():Observable<Collector[]>{
     return this.http.get<Collector[]>(`${this.url}/collector`).pipe(share())
 

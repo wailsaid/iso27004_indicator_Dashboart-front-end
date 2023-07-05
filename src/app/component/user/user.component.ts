@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import { User, UsersService } from 'src/app/service/user/users.service';
 
@@ -19,7 +20,8 @@ export class UserComponent implements OnInit, OnDestroy {
   private sub1 !: Subscription;
   private sub2 !: Subscription;
   private sub3 !: Subscription;
-  constructor(private userService: UsersService) { }
+  private sub4 !: Subscription;
+  constructor(private userService: UsersService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.sub1 = this.userService.getUsers().subscribe((data) => {
@@ -31,6 +33,7 @@ export class UserComponent implements OnInit, OnDestroy {
     this.sub1?.unsubscribe();
     this.sub2?.unsubscribe();
     this.sub3?.unsubscribe();
+    this.sub4?.unsubscribe();
   }
 
 
@@ -73,6 +76,19 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
 
+ newPass : string = "";
+
+ ResetPassword(user : User){
+
+  this.sub4 = this.userService.RestUserP(user.id,this.newPass).subscribe(_=>{
+    this.newPass ="";
+    this.snackBar.open("new password is set", 'Close', {
+      duration: 5000,
+      verticalPosition: 'bottom',
+      horizontalPosition: 'end'
+    });
+  })
+ }
 
 
   Picon: string = "fa-eye";

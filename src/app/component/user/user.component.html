@@ -17,6 +17,7 @@
                         <th>E-mail</th>
                         <th>Role</th>
                         <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -24,7 +25,46 @@
                         <td>{{user.username}}</td>
                         <td>{{user.email}}</td>
                         <td>{{user.role}}</td>
+                        <td>
+                            <button type="button" class="btn btn-warning btn-sm " data-bs-toggle="modal"
+                                [attr.data-bs-target]="'#pModal'+user.id">
 
+                                <span class="text">ResetPassword</span>
+                            </button>
+                            <!-- Delete Modal -->
+
+                            <div class="modal fade" id="pModal{{user.id}}" tabindex="-1"
+                                aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="deleteModalLabel">Reset Password</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Reset the password for user : {{user.username}}
+                                            <form >
+
+                                                <div class="form-group form-floating">
+                                                    <input type="{{passwordInput}}" class="form-control" placeholder=""
+                                                    name="password" [(ngModel)]="newPass" id="password" ngModel
+                                                    required>
+                                                    <i class="fa {{Picon}}" (click)="toggleP()" id="togglePassword"></i>
+                                                    <label for="name">New Password</label>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Cancel</button>
+                                            <button (click)="ResetPassword(user)" data-bs-dismiss="modal"
+                                                class="btn btn-warning">Reset</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
                         <td>
                             <button type="button" class="btn btn-danger btn-sm btn-icon-split" data-bs-toggle="modal"
                                 [attr.data-bs-target]="'#deleteModal'+user.id">
@@ -77,7 +117,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form #myForm="ngForm"  id="adduser" (ngSubmit)="addUser()">
+                <form #myForm="ngForm" id="adduser" (ngSubmit)="addUser()">
                     <div class="row">
                         <div class="col-md-6">
 
@@ -88,7 +128,7 @@
                             </div>
                             <div class="form-group form-floating">
 
-                                <select [(ngModel)]="role"  id="role" class="form-select" name="role"   >
+                                <select [(ngModel)]="role" id="role" class="form-select" name="role">
                                     <option value="USER" selected>Simple user</option>
                                     <option value="ADMIN">Administrator</option>
                                     <option value="COLLECTOR">Collector</option>
@@ -116,7 +156,8 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button [disabled]="!myForm.valid" type="submit" form="adduser"  class="btn btn-primary" data-bs-dismiss="modal">
+                <button [disabled]="!myForm.valid" type="submit" form="adduser" class="btn btn-primary"
+                    data-bs-dismiss="modal">
                     <i class="fas fa-plus fa-sm text-white-50"></i> Add</button>
             </div>
         </div>
