@@ -1,0 +1,14 @@
+[Unit]
+Description = Front for the Dashboard app for iso270004 indicator
+After = syslog.target
+
+[Service]
+User = daemon
+WorkingDirectory = path/to/the/app
+ExecStart = node serve.js
+SuccessExitStatus = 143
+Restart = always
+RestartSec = 30
+
+[Install]
+WantedBy = multi-user.target
